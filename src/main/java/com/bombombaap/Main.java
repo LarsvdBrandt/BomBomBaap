@@ -1,176 +1,63 @@
 package com.bombombaap;
 
-import java.util.Random;
-
 import static spark.Spark.get;
 import static spark.Spark.port;
-import static spark.Spark.post;
 
 public class Main {
-    private static final String[] CATEGORIES = {
-        "Things that are blue", "Animals", "Countries", "Fruits", "Sports", "Cities", "Movies", "Foods",
-        "Things that are round", "Vegetables", "Car brands", "Famous people", "Mountains", "Rivers", "Planets", "Languages",
-        "Things you wear", "Musical instruments", "Board games", "Video games", "Cartoon characters", "TV shows", "Songs", "Bands",
-        "Things in a kitchen", "Things in a bathroom", "Things in a garden", "Types of trees", "Types of flowers", "Birds", "Insects",
-        "Things that fly", "Things that swim", "Things that crawl", "Things that jump", "Things that are hot", "Things that are cold",
-        "Things that are soft", "Things that are hard", "Things that are expensive", "Things that are cheap", "Things that are fast",
-        "Things that are slow", "Things that are loud", "Things that are quiet", "Things that are sweet", "Things that are sour",
-        "Things that are salty", "Things that are bitter", "Things that are spicy", "Things that are green", "Things that are red",
-        "Things that are yellow", "Things that are purple", "Things that are orange", "Things that are black", "Things that are white",
-        "Things that are brown", "Things that are pink", "Things that are silver", "Things that are gold", "Things that are transparent",
-        "Things that are sticky", "Things that are slippery", "Things that are fluffy", "Things that are shiny", "Things that are dull",
-        "Things that are square", "Things that are triangular", "Things that are rectangular", "Things that are cylindrical",
-        "Things that are electronic", "Things that are mechanical", "Things that are natural", "Things that are artificial",
-        "Things you find at the beach", "Things you find in the forest", "Things you find in the desert", "Things you find in the city",
-        "Things you find in the countryside", "Things you find in space", "Things you find underwater", "Things you find underground",
-        "Things you find in a school", "Things you find in a hospital", "Things you find in a supermarket", "Things you find in a restaurant",
-        "Things you find in a hotel", "Things you find in a zoo", "Things you find in a museum", "Things you find in a library",
-        "Things you find in a park", "Things you find in a playground", "Things you find in a gym", "Things you find in a stadium",
-        "Things you find in a church", "Things you find in a temple", "Things you find in a mosque", "Things you find in a bank",
-        "Things you find in an airport", "Things you find in a train station", "Things you find in a bus station", "Things you find in a garage",
-        "Things you find in a factory", "Things you find in an office", "Things you find in a farm", "Things you find in a zoo",
-        "Things you find in a circus", "Things you find in a theater", "Things you find in a cinema", "Things you find in a casino",
-        "Things you find in a prison", "Things you find in a police station", "Things you find in a fire station", "Things you find in a post office",
-        "Things you find in a shopping mall", "Things you find in a hair salon", "Things you find in a tattoo shop", "Things you find in a bakery",
-        "Things you find in a butcher shop", "Things you find in a pharmacy", "Things you find in a pet shop", "Things you find in a toy store",
-        "Things you find in a hardware store", "Things you find in a clothing store", "Things you find in a shoe store", "Things you find in a jewelry store",
-        "Things you find in a furniture store", "Things you find in a electronics store", "Things you find in a book store", "Things you find in a music store",
-        "Things you find in a sports store", "Things you find in a car dealership", "Things you find in a gas station", "Things you find in a laundromat",
-        "Things you find in a recycling center", "Things you find in a dump", "Things you find in a construction site", "Things you find in a warehouse",
-        "Things you find in a laboratory", "Things you find in a observatory", "Things you find in a power plant", "Things you find in a water treatment plant",
-        "Things you find in a wind farm", "Things you find in a solar farm", "Things you find in a nuclear plant", "Things you find in a military base",
-        "Things you find in a embassy", "Things you find in a consulate", "Things you find in a parliament", "Things you find in a court",
-        "Things you find in a jail", "Things you find in a morgue", "Things you find in a crematorium", "Things you find in a cemetery"
-    };
-    private static final Random rand = new Random();
-    private static String currentLetter = randomLetter();
-    private static String currentCategory = randomCategory();
-    private static boolean show404 = false;
-    private static int leftCounter = 0;
-    private static int middleCounter = 0;
-    private static int rightCounter = 0;
-    private static int tryAgainCounter = 0;
-    private static int totalCounter = 0;
-    private static boolean showLetter = true;
-    private static boolean started = false;
-
     public static void main(String[] args) {
-        port(3004); // Set to 3004 to match README and instructions
+        port(3004);
         get("/", (req, res) -> {
             res.type("text/html");
-            return htmlPage(currentLetter, currentCategory, show404, showLetter, started);
+            return "<html><head><title>BomBomBaap</title>"
+                + "<style>"
+                + "@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');"
+                + "body{font-family:'Press Start 2P',monospace;text-align:center;background:#111;margin:0;overflow:hidden;color:#ffd600;}"
+                + ".stars{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;}"
+                + ".star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;animation:twinkle 2s infinite alternate;}"
+                + "@keyframes twinkle{0%{opacity:0.5;}100%{opacity:1;}}"
+                + ".arcade-frame{position:relative;z-index:1;max-width:500px;margin:60px auto 0 auto;padding:40px 20px 32px 20px;background:linear-gradient(135deg,#222 60%,#333 100%);border:8px solid #ffd600;border-radius:32px;box-shadow:0 0 60px #000,0 0 0 12px #d32f2f,0 0 0 24px #388e3c;}"
+                + "h1.arcade-title{font-size:2.5em;margin-bottom:24px;letter-spacing:4px;text-shadow:0 0 8px #ffd600,0 0 24px #d32f2f,0 0 32px #388e3c;}"
+                + ".arcade-btns{display:flex;flex-direction:column;gap:32px;margin-top:40px;}"
+                + "button.arcade-btn{font-family:'Press Start 2P',monospace;font-size:1.2em;padding:24px 0;border:4px solid #ffd600;border-radius:16px;background:#222;color:#ffd600;box-shadow:0 4px 0 #d32f2f,0 8px 0 #388e3c,0 0 16px #ffd600;cursor:pointer;transition:background 0.2s, color 0.2s;width:70%;max-width:400px;min-width:180px;margin:0 auto;text-shadow:0 0 8px #ffd600;}"
+                + "button.arcade-btn:hover{background:#ffd600;color:#222;text-shadow:0 0 8px #222;}"
+                + "</style>"
+                + "<script>"
+                + "document.addEventListener('DOMContentLoaded',function(){"
+                + "var s=document.createElement('div');s.className='stars';for(var i=0;i<120;i++){var star=document.createElement('div');star.className='star';star.style.top=Math.random()*100+'vh';star.style.left=Math.random()*100+'vw';var size=(Math.random()<0.7?2:Math.floor(Math.random()*6+3));star.style.width=size+'px';star.style.height=size+'px';star.style.opacity=(0.5+Math.random()*0.5);star.style.animationDuration=(1+Math.random()*2)+'s';s.appendChild(star);}document.body.appendChild(s);"
+                + "function shootStar(){"
+                + "var shoot=document.createElement('div');shoot.className='shooting-star';shoot.style.position='fixed';shoot.style.width='60px';shoot.style.height='4px';shoot.style.background='linear-gradient(90deg,#fff,#ffd600 80%)';shoot.style.borderRadius='2px';shoot.style.opacity='0.8';shoot.style.zIndex='2';shoot.style.boxShadow='0 0 16px #ffd600';"
+                + "var angle=Math.random()*180;"
+                + "var startX=Math.random()*window.innerWidth, startY=Math.random()*window.innerHeight;"
+                + "var length=window.innerWidth*1.2;"
+                + "shoot.style.top=startY+'px';shoot.style.left=startX+'px';"
+                + "shoot.style.transform='rotate('+angle+'deg)';"
+                + "var rad=angle*Math.PI/180;"
+                + "var endX=startX+Math.cos(rad)*length;"
+                + "var endY=startY+Math.sin(rad)*length;"
+                + "var duration=1400;"
+                + "document.body.appendChild(shoot);"
+                + "shoot.animate([{left:startX+'px',top:startY+'px',opacity:0.8},{left:endX+'px',top:endY+'px',opacity:0}],{duration:duration,easing:'ease-out'});"
+                + "setTimeout(function(){shoot.remove();},duration+100);"
+                + "}"
+                // 3 independent timers, min 2s (2000ms) to max 5s (5000ms), random in ms
+                + "function starTimer(){var min=2000,max=5000;var t=function(){shootStar();setTimeout(t,Math.floor(Math.random()*(max-min+1))+min);};setTimeout(t,Math.floor(Math.random()*(max-min+1))+min);}for(var i=0;i<3;i++){starTimer();}"
+                // Click anywhere outside arcade-frame to spawn extra star
+                + "document.body.addEventListener('mousedown',function(e){var frame=document.querySelector('.arcade-frame');if(!frame||!frame.contains(e.target)){shootStar();}});"
+                + "});"
+                + "</script>"
+                + "</head><body>"
+                + "<div class='arcade-frame'>"
+                + "<h1 class='arcade-title'>BomBomBaap</h1>"
+                + "<div class='arcade-btns'>"
+                + "<form action='/categories' method='get'><button class='arcade-btn' type='submit'>Categories</button></form>"
+                + "<form action='/nameit' method='get'><button class='arcade-btn' type='submit'>Name It</button></form>"
+                + "<form action='/hitorstand' method='get'><button class='arcade-btn' type='submit'>Hit or Stand</button></form>"
+                + "</div>"
+                + "</div>"
+                + "</body></html>";
         });
-        post("/next", (req, res) -> {
-            if (!started) {
-                started = true;
-                showLetter = false;
-                return "ok";
-            }
-            if (show404) {
-                show404 = false;
-                showLetter = false;
-                tryAgainCounter++;
-                middleCounter++;
-                totalCounter += 1;
-                currentCategory = randomCategory(); // Only new category, do not restart
-            } else {
-                showLetter = false;
-                middleCounter++;
-                totalCounter += 1;
-                currentCategory = randomCategory();
-            }
-            return "ok";
-        });
-        post("/reset", (req, res) -> {
-            leftCounter = 0;
-            middleCounter = 0;
-            rightCounter = 0;
-            tryAgainCounter = 0;
-            totalCounter = 0;
-            show404 = false;
-            showLetter = true;
-            started = false;
-            currentLetter = randomLetter();
-            currentCategory = randomCategory();
-            return "ok";
-        });
-        post("/left", (req, res) -> {
-            leftCounter++;
-            totalCounter += 2;
-            showLetter = false;
-            currentCategory = randomCategory();
-            return "ok";
-        });
-        post("/right", (req, res) -> {
-            rightCounter++;
-            totalCounter += 3;
-            showLetter = false;
-            currentCategory = randomCategory();
-            return "ok";
-        });
-        post("/timeout", (req, res) -> {
-            show404 = true;
-            return "timeout";
-        });
-    }
-
-    private static String randomLetter() {
-        return String.valueOf((char) ('A' + rand.nextInt(26)));
-    }
-    private static String randomCategory() {
-        return CATEGORIES[rand.nextInt(CATEGORIES.length)];
-    }
-    private static String htmlPage(String letter, String category, boolean error, boolean showLetter, boolean started) {
-        // Button colors
-        String leftBtnColor = error ? "#888" : "#d32f2f"; // red or grey
-        String middleBtnColor = error ? "red" : "#388e3c"; // red or dark green
-        String rightBtnColor = error ? "#888" : "#ffd600"; // yellow or grey
-        String btnStyle = "padding:10px 20px;font-size:1.2em;border:1px solid black;border-radius:10px;cursor:pointer;margin:0 10px;min-width:120px;";
-        String bigBtnStyle = "padding:20px 40px;font-size:2em;border:1px solid black;border-radius:10px;cursor:pointer;margin:0 10px;min-width:160px;";
-        String timerDiv = "<div id='timer' style='font-size:2em;margin-bottom:10px;color:#fff;background:rgba(0,0,0,0.3);border:1px solid black;display:inline-block;padding:8px 24px;border-radius:12px;text-shadow:0 1px 2px #000;'></div>";
-        String errorMsg = error ? "<h1 style='color:#fff;background:rgba(0,0,0,0.5);border:1px solid black;display:inline-block;padding:8px 24px;border-radius:12px;text-shadow:0 1px 2px #000;'>404 Error: Time's up!</h1>" : "";
-        String letterDiv = showLetter ? "<h2 style='color:#fff;background:rgba(0,0,0,0.3);border:1px solid black;display:inline-block;padding:8px 24px;border-radius:12px;text-shadow:0 1px 2px #000;'>Letter: "+letter+"</h2>" : "";
-        String categoryDiv = "<h3 style='color:#fff;background:rgba(0,0,0,0.3);border:1px solid black;display:inline-block;padding:8px 24px;border-radius:12px;text-shadow:0 1px 2px #000;'>Category: " + category + "</h3>";
-        String counterDiv = "<div style='margin:20px 0;font-size:1.2em;color:#fff;background:rgba(0,0,0,0.7);border:1px solid black;display:inline-block;padding:8px 24px;border-radius:12px;'>"
-            + "<span>Bouncer: " + leftCounter + "</span> &nbsp; "
-            + "<span>Next: " + middleCounter + "</span> &nbsp; "
-            + "<span>Palindrome: " + rightCounter + "</span> &nbsp; "
-            + (error ? "<span>Try Again: " + tryAgainCounter + "</span> &nbsp; " : "")
-            + "</div>";
-        String totalDiv = "<div style='margin-top:40px;font-size:1.5em;background:rgba(0,0,0,0.7);color:#fff;padding:20px;border-radius:20px;box-shadow:0 0 30px #222;'>Pof counter: "+totalCounter+"</div>";
-        String rastafariBg = "body{font-family:sans-serif;text-align:center;"
-            + "background: repeating-linear-gradient(135deg, #222 0px, #222 40px, #1a7f2b 40px, #1a7f2b 80px, #ffd600 80px, #ffd600 120px, #d32f2f 120px, #d32f2f 160px, #222 160px, #222 200px), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80');background-size:cover;min-height:100vh;}";
-        StringBuilder html = new StringBuilder();
-        html.append("<html><head><title>BomBomBaap</title>");
-        html.append("<style>").append(rastafariBg)
-            .append("h1{margin-top:40px;}#btnrow{display:flex;justify-content:center;align-items:center;margin-top:30px;}#btnrow button{margin:0 10px;}@media(max-width:600px){#btnrow{flex-direction:column;}#btnrow button{margin:10px 0;}}")
-            .append("</style>");
-        html.append("<script>");
-        html.append("let timer;let timeLeft=10;function startTimer(){document.getElementById('timer').innerText='Timer: '+timeLeft+'s';timer=setInterval(function(){timeLeft--;document.getElementById('timer').innerText='Timer: '+timeLeft+'s';if(timeLeft<=0){clearInterval(timer);fetch('/timeout',{method:'POST'}).then(function(){location.reload();});}},1000);}function next(){fetch('/next',{method:'POST'}).then(function(){location.reload();});}function left(){fetch('/left',{method:'POST'}).then(function(){location.reload();});}function right(){fetch('/right',{method:'POST'}).then(function(){location.reload();});}window.onload=function(){if(")
-            .append(started)
-            .append("&&!")
-            .append(error)
-            .append("){startTimer();}};");
-        html.append("</script></head><body>");
-        html.append(errorMsg).append("<br>").append(letterDiv);
-        if (started) {
-            html.append("<br>").append(timerDiv).append("<br>").append(categoryDiv).append("<br>");
-            html.append("<div id='btnrow'>");
-            html.append("<button style='").append(btnStyle).append("background:").append(leftBtnColor).append(";' onclick='left()' ").append(error ? "disabled" : "").append(">Bouncer</button>");
-            html.append("<button style='").append(bigBtnStyle).append("background:").append(middleBtnColor).append(";' onclick='next()'>").append(error ? "Try Again" : "Next").append("</button>");
-            html.append("<button style='").append(btnStyle).append("background:").append(rightBtnColor).append(";' onclick='right()' ").append(error ? "disabled" : "").append(">Palindrome</button>");
-            html.append("</div>");
-            html.append(counterDiv);
-        } else {
-            html.append("<br><div id='btnrow'>");
-            html.append("<button style='").append(bigBtnStyle).append("background:").append(middleBtnColor).append(";' onclick='next()'>Start</button>");
-            html.append("</div>");
-        }
-        html.append(totalDiv);
-        if (error) {
-            html.append("<br><form><button type='button' style='margin-top:20px;padding:10px 30px;font-size:1.1em;border:1px solid black;border-radius:10px;background:#222;color:#fff;cursor:pointer;' onclick=\"fetch('/reset',{method:'POST'}).then(()=>location.reload())\">Reset</button></form>");
-        }
-        html.append("</body></html>");
-        return html.toString();
+        GamesCategories.registerRoutes();
+        GamesNameIt.registerRoutes();
+        GamesHitOrStand.registerRoutes();
     }
 }
