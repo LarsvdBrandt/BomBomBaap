@@ -1,45 +1,145 @@
 package com.bombombaap;
 
+import java.util.Collections;
 import java.util.Random;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
 
 public class GamesNameIt {
 private static final String[] MOVIE_PROMPTS = {
-    "Name a movie with Tom Hanks", "Name a comedy movie", "Name a movie from the 90s", "Name a movie with a dog", "Name a movie set in space",
-    "Name a horror movie", "Name a Disney movie", "Name a Marvel movie", "Name a movie with time travel", "Name a movie directed by Christopher Nolan",
-    "Name a black and white movie", "Name an animated movie", "Name a movie with a number in the title", "Name a romantic movie", "Name a movie with aliens",
-    "Name a movie set in New York", "Name a Christmas movie", "Name a movie based on a true story", "Name a superhero movie", "Name a movie with Brad Pitt",
-    "Name a movie that won an Oscar", "Name a movie with a twist ending", "Name a foreign-language movie", "Name a sequel", "Name a movie with a dragon",
-    "Name a musical", "Name a zombie movie", "Name a movie about high school", "Name a war movie", "Name a movie with a famous quote"
+    "Noem een film met Tom Hanks", 
+    "Noem een niet grappige comedy", 
+    "Noem een film uit de jaren 90", 
+    "Noem een film met een hond", 
+    "Noem een film van James Cameron",
+    "Noem een slechte horror film", 
+    "Noem een klassieke Disney film", 
+    "Noem een Marvel superheld", 
+    "Noem een karakter uit Star Wars", 
+    "Noem een film van Christopher Nolan",
+    "Noem een zwart witte film", 
+    "Noem een 2D geanimeerde film", 
+    "Noem een film met een getal in de titel", 
+    "Noem een romcon", 
+    "Noem een film met aliens", 
+    "Noem een 3D geanimeerde film",
+    "Noem een film die zich afspeelt in New York", 
+    "Noem een kerst film", 
+    "Noem een film gebasseerd op een echt gebeurd verhaal", 
+    "Noem een superhero movie", 
+    "Noem een film met Brad Pitt",
+    "Noem een film die een Oscar heeft gewonnen", 
+    "Noem een film met een plot twist einde", 
+    "Noem een buitenlandse film (niet Engels)", 
+    "Noem een opvolger met een '2' in de titel", 
+    "Noem een film met een draak", 
+    "Noem een opvolger die géén '2' in de titel heeft", 
+    "Noem een film die jullie samen gekeken hebben", 
+    "Noem een film met een seksscène",
+    "Noem een musical", 
+    "Noem een oorlogsfilm", 
+    "Noem een bekende film quote", 
+    "Noem een film waarin het hoofdkarakter dood gaat", 
+    "raak een minderjarige aan"
 };
 
 private static final String[] MUSIC_PROMPTS = {
-    "Name a Beatles song", "Name a rap artist", "Name a song with 'love' in the title", "Name a jazz musician", "Name a famous band",
-    "Name a rock song", "Name a country artist", "Name a classical composer", "Name a song from the 80s", "Name a female singer",
-    "Name a Grammy-winning artist", "Name a punk band", "Name a song with a color in the title", "Name a music duo", "Name a song with one word in the title",
-    "Name a music festival", "Name a boy band", "Name a hip hop group", "Name a famous DJ", "Name an album released in the 2000s",
-    "Name a song from the 70s", "Name a song by Taylor Swift", "Name a live album", "Name a sad song", "Name a fast-paced song",
-    "Name a song with an animal in the title", "Name a protest song", "Name a duet", "Name a soundtrack song", "Name a song with a city in the title"
+    "Noem een Beatles lied", 
+    "Noem een blanke rapper", 
+    "Noem een liedje met 'love' in de titel", 
+    "Noem een jazzmuzikant", 
+    "Noem een boyband",
+    "Noem een lied met een gitaarsolo", 
+    "Noem een country zanger(es)", 
+    "Noem een klassieke componist", 
+    "Noem een lied uit de jaren 70",
+    "Noem een artiest die een Grammy heeft gewonnen", 
+    "Noem een punk band", 
+    "Noem een lied met een kleur in de titel", 
+    "Noem een muzikaal duo", 
+    "Noem een lied met maar 1 woord als titel",
+    "Noem een muziek festival waar je niet geweest bent", 
+    "Noem een concert waar je geweest bent", 
+    "Noem een hip hop groep", 
+    "Noem een buitenlandse DJ", 
+    "Noem een album dat is uitgekomen in de 20e eeuw",
+    "Noem een zangeres uit de jaren 80", 
+    "Noem een Taylor Swift lied", 
+    "Noem een live album", 
+    "Noem een depressief lied",
+     "Noem een techno / uptempo lied",
+    "Noem een lied met een dier in de titel", 
+    "Noem een lied uit een film soundtrack", 
+    "Noem een duet", 
+    "Noem een lied met een stad in de titel",
+    "Noem de zanger van een band", 
+    "Noem een niet-zanger van een band", 
+    "Noem een album met een mooie albumcover", 
+    "Noem een nummer met een mooie betekenis",
+    "zeg het n woord harde R"
 };
 
 private static final String[] COUNTRY_PROMPTS = {
-    "Name a country in Africa", "Name a country with a red flag", "Name a country starting with S", "Name a country with mountains", "Name a country with a coastline",
-    "Name a landlocked country", "Name a country in South America", "Name a country in Asia", "Name a country in Europe", "Name a country that speaks Spanish",
-    "Name a country with more than 100 million people", "Name a small island nation", "Name a country that borders Russia", "Name a country in the EU", "Name a country with a desert",
-    "Name a cold country", "Name a tropical country", "Name a country that hosted the Olympics", "Name a country that uses the euro", "Name a country with a monarchy",
-    "Name a country with a blue flag", "Name a country that ends with 'land'", "Name a country that starts with B", "Name a country without a military", "Name a country in the Middle East",
-    "Name a country with a jungle", "Name a country that is an island", "Name a country that has hosted the World Cup", "Name a country that borders China", "Name a country that is part of NATO"
+    "Noem een land in Noord Afrika", 
+    "Noem een land met een >50% groene vlag", 
+    "Noem een land dat begint met een G", 
+    "Noem een country with a coastline",
+    "Noem een stad in Zuid Amerika", 
+    "Noem 2 grenzende landen in Azië", 
+    "Noem een Europese niet-hoofdstad", 
+    "Noem een land dat Spaans spreekt",
+    "Noem een land met meer dan 100 millioen mensen", 
+    "Noem een land dat een eiland is", 
+    "Noem een land dat grenst aan Turkije", 
+    "Noem een land met een woestijn",
+    "Noem een land dat de Olympische Spelen heeft gehost", 
+    "Noem een Europese munt buiten de Euro", 
+    "Noem een land met een monarchie",
+    "Noem een land met een >50% blauwe vlag", 
+    "Noem een land dat niet eindigt op '-land'", 
+    "Noem een land dat eindigt op een E", 
+    "Noem een land in het Midden Oosten",
+    "Noem een land met een jungle", 
+    "Noem een land dat het WK heeft gehost", 
+    "Noem een land dat grenst aan China", 
+    "Noem een van de Verenigde Staten", 
+    "Noem een van de TVTAS eilanden"
 };
 
 private static final String[] DRUG_PROMPTS = {
-    "Name a legal drug", "Name a painkiller", "Name a recreational drug", "Name a drug used in hospitals", "Name a drug starting with A",
-    "Name an over-the-counter drug", "Name a drug used to treat anxiety", "Name a prescription drug", "Name a stimulant", "Name a sedative",
-    "Name a psychedelic drug", "Name a type of antibiotic", "Name a chemotherapy drug", "Name an anti-inflammatory drug", "Name a drug you inject",
-    "Name a drug for high blood pressure", "Name a birth control drug", "Name a sleeping pill", "Name a drug that ends with -ine", "Name a drug commonly abused",
-    "Name a drug that starts with M", "Name a drug found in a first-aid kit", "Name a drug that treats depression", "Name a vaccine", "Name a cough suppressant",
-    "Name a diabetes medication", "Name a drug used in surgery", "Name a banned drug", "Name a drug used in mental health", "Name a drug found in a pharmacy"
+    "Noem een legale drug",
+    "Noem een pijnstiller",
+    "Noem een recreatieve drug",
+    "Noem een drug die in ziekenhuizen wordt gebruikt",
+    "Noem een drug die begint met een A",
+    "Noem een vrij verkrijgbare drug",
+    "Noem een drug tegen angst",
+    "Noem een receptplichtige drug",
+    "Noem een stimulerende drug",
+    "Noem een kalmerende drug",
+    "Noem een psychedelische drug",
+    "Noem een soort antibioticum",
+    "Noem een chemotherapie-medicijn",
+    "Noem een ontstekingsremmer",
+    "Noem een drug die je moet injecteren",
+    "Noem een medicijn tegen hoge bloeddruk",
+    "Noem een anticonceptiemiddel",
+    "Noem een slaappil",
+    "Noem een drug die eindigt op '-ine'",
+    "Noem een drug die vaak wordt misbruikt",
+    "Noem een drug die begint met een M",
+    "Noem een drug die je in een EHBO-kit kunt vinden",
+    "Noem een medicijn tegen depressie",
+    "Noem een vaccin",
+    "Noem een hoestremmer",
+    "Noem een medicijn tegen diabetes",
+    "Noem een drug die wordt gebruikt bij operaties",
+    "Noem een verboden drug",
+    "Noem een medicijn voor mentale gezondheid",
+    "Noem een drug die je bij de apotheek kunt kopen"
 };
 
     private static final Random rand = new Random();
@@ -52,6 +152,8 @@ private static final String[] DRUG_PROMPTS = {
     private static boolean started = false;
     private static boolean showCategories = true;
     private static boolean autoMode = false;
+    // Track prompts used during the application's lifetime (until shutdown)
+    private static final Set<String> usedPrompts = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     public static void registerRoutes() {
         get("/nameit", (req, res) -> {
@@ -68,7 +170,7 @@ private static final String[] DRUG_PROMPTS = {
             started = true;
             showCategories = false;
             if (autoMode) {
-                String[] cats = {"Movies", "Music", "Countries", "Drugs"};
+                String[] cats = {"Films", "Muziek", "Landen", "Drugs"};
                 currentCategory = cats[rand.nextInt(cats.length)];
             } else {
                 currentCategory = req.queryParams("category");
@@ -111,13 +213,41 @@ private static final String[] DRUG_PROMPTS = {
     }
 
     private static String randomPromptForCategory(String category) {
+        String[] pool;
         switch (category) {
-            case "Movies": return MOVIE_PROMPTS[rand.nextInt(MOVIE_PROMPTS.length)];
-            case "Music": return MUSIC_PROMPTS[rand.nextInt(MUSIC_PROMPTS.length)];
-            case "Countries": return COUNTRY_PROMPTS[rand.nextInt(COUNTRY_PROMPTS.length)];
-            case "Drugs": return DRUG_PROMPTS[rand.nextInt(DRUG_PROMPTS.length)];
-            default: return "Name something";
+            case "Films":
+                pool = MOVIE_PROMPTS; break;
+            case "Muziek":
+                pool = MUSIC_PROMPTS; break;
+            case "Landen":
+                pool = COUNTRY_PROMPTS; break;
+            case "Drugs":
+                pool = DRUG_PROMPTS; break;
+            default:
+                return "Name something";
         }
+
+        // Try to pick an unused prompt; if all used, inform the player
+        // Attempt a bounded number of random tries for efficiency
+        int attempts = 0;
+        int maxAttempts = pool.length * 2;
+        while (attempts < maxAttempts) {
+            String candidate = pool[rand.nextInt(pool.length)];
+            if (!usedPrompts.contains(candidate)) {
+                usedPrompts.add(candidate);
+                return candidate;
+            }
+            attempts++;
+        }
+
+        // Fallback: scan linearly for any unused, else report exhaustion
+        for (String p : pool) {
+            if (!usedPrompts.contains(p)) {
+                usedPrompts.add(p);
+                return p;
+            }
+        }
+        return "No prompts left in " + category + ". Reset the app to start over.";
     }
     private static String htmlPage(String prompt, boolean error, boolean started, boolean showCategories, String currentCategory) {
         String autoSwitch = "<div style='margin-bottom:18px;display:flex;justify-content:center;align-items:center;'><label style='font-family:inherit;font-size:1.1em;color:#ffd600;display:flex;align-items:center;gap:12px;'>"

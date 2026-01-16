@@ -20,13 +20,17 @@ public class GamesHitOrStand {
             String expected = getStrategyResult(p1, p2, dealer);
             String feedback;
             if (action != null && action.equals(expected)) {
+                if ("DOUBLE".equals(action) || "SPLIT".equals(action)) {
+                    feedback = "<span style='color:#4CAF50;'>✔ Correct! <br>+2 Pofs</span>";
+                } else {
+                    feedback = "<span style='color:#4CAF50;'>✔ Correct! <br>Neem een Pof!</span>";
+                }
                 correct++;
-                feedback = "<span style='color:#ffd600;'>✔ Correct!</span>";
             } else {
                 wrong++;
-                feedback = "<span style='color:#d32f2f;'>✖ Wrong! Correct: " + expected + ", Jilla Time!</span>";
+                feedback = "<span style='color:#d32f2f;'>✖ Wrong! Correct: " + expected + "<br>Jilla Time!</span>";
             }
-            // New round
+            // New round 
             String newP1 = getRandomCard();
             String newP2 = getRandomCard();
             String newDealer = getRandomCard();
@@ -49,7 +53,7 @@ public class GamesHitOrStand {
         boolean blackjack = (p1.equals("A") && (p2.equals("10") || p2.equals("J") || p2.equals("Q") || p2.equals("K")))
                             || (p2.equals("A") && (p1.equals("10") || p1.equals("J") || p1.equals("Q") || p1.equals("K")));
         if (blackjack) {
-            feedback = "<span style='color:#ffd600;'>Blackjack! +3 Pofs</span>";
+            feedback = "<span style='color:#ffd600;font-size:1.5em;text-shadow:0 0 8px #ffd600,0 0 16px #ffd600;'>Blackjack! <br>+3 Pofs</span>";
         }
         return "<html><head><title>Hit or Stand</title>"
             + "<link href='https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap' rel='stylesheet'>"
@@ -152,8 +156,8 @@ public class GamesHitOrStand {
             )
             + "</div>"
             + "</form>"
+            + "<div id='feedback' style='margin-bottom:16px;font-size:2em;color:#ffff66;'>" + feedback + "</div>"
             + "<div class='counter'><span>Correct: <span id='correct'>" + correct + "</span></span> &nbsp; <span>Wrong: <span id='wrong'>" + wrong + "</span></span></div>"
-            + "<div id='feedback' style='margin-top:18px;font-size:1.2em;'>" + feedback + "</div>"
             + "<div class='counter'><span>Pof Counter: <span id='pofCounter'>" + 0 + "</span></span></div>"
             + "<script>"
             + "document.addEventListener('DOMContentLoaded', function() {"

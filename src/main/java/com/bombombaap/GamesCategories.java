@@ -36,6 +36,71 @@ public class GamesCategories {
         "Things you find in a embassy", "Things you find in a consulate", "Things you find in a parliament", "Things you find in a court",
         "Things you find in a jail", "Things you find in a morgue", "Things you find in a crematorium", "Things you find in a cemetery"
     };
+
+    private static final String[] categorien = {
+        "Iets zachts",
+        "Iets keihards",
+        "Iets belachelijk duurs",
+        "Iets verdacht goedkoops",
+        "Iets heel snel",
+        "Iets heel traag",
+
+        "Iets dat lawaai maakt",
+        "Iets dat muisstil is",
+        "Iets zoets",
+        "Iets zuurs",
+        "Iets pittigs",
+
+        "Iets groens",
+        "Iets roods",
+        "Iets zwarts",
+        "Iets wits",
+        "Iets gouds",
+        "Iets doorzichtigs",
+        "Iets dat glinstert",
+
+        "Iets dat plakt",
+        "Iets waar je gegarandeerd over uitglijdt",
+        "Iets dat er duur uitziet maar dat niet is",
+
+        "Iets dat in je portemonnee past",
+        "Iets dat je liever niet in je broekzak hebt",
+        "Iets dat je verder dan 5 meter kunt trappen",
+        "Iets dat pijn doet als je erop gaat zitten",
+
+        "Iets dat je kunt breken",
+        "Iets dat jou breekt",
+        "Iets dat kapot gaat als je ernaar kijkt",
+        "Iets dat elektrisch is",
+        "Iets dat werkt zonder dat iemand weet hoe",
+        "Iets dat nooit doet wat het moet doen",
+
+        "Iets dat je vroeger cool vond",
+        "Iets dat alleen oude mensen gebruiken",
+        "Iets dat kinderen veel te leuk vinden",
+
+        "Iets dat je stiekem verzamelt",
+        "Iets dat je kwijtraakt als je het nodig hebt",
+        "Iets dat altijd verdwijnt",
+        "Iets dat je alleen in sprookjes tegenkomt",
+
+        "Iets dat je niet mag aanraken",
+        "Iets dat je absoluut niet mag googelen op werk",
+        "Iets dat je alleen ‘per ongeluk’ tegenkomt",
+
+        "Iets dat gevaarlijk is",
+        "Iets waarbij iemand ooit zei: ‘hou m’n bier vast’",
+        "Iets dat levensgevaarlijk is als het van een lantaarnpaal op je hoofd valt",
+        "Iets dat je kunt alleen tillen",
+        "Iets dat je permanent rugschade geeft",
+
+        "Iets dat lekker ruikt",
+        "Iets dat verdacht ruikt",
+        "Iets dat je neushaartjes wegbrandt",
+        "Iets dat je gelukkig maakt",
+        "Iets dat je meteen spijt geeft",
+        "Iets dat beter lijkt dan het is"
+    };
     private static final Random rand = new Random();
     private static String currentLetter = randomLetter();
     private static String currentCategory = randomCategory();
