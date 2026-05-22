@@ -1,11 +1,37 @@
 package com.bombombaap;
 
+import org.json.JSONObject;
+import java.io.IOException;
+import java.net.ServerSocket;
+
 import static spark.Spark.get;
 import static spark.Spark.port;
 
 public class Main {
     public static void main(String[] args) {
-        port(3004);
+        int basePort = 3004;
+        String portEnv = System.getenv("PORT");
+        int desiredPort = basePort;
+        if (portEnv != null && !portEnv.isBlank()) {
+            try {
+                desiredPort = Integer.parseInt(portEnv.trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid PORT environment variable, falling back to default " + basePort);
+            }
+        }
+        int selectedPort = -1;
+        for (int p = desiredPort; p < desiredPort + 6; p++) {
+            if (isPortAvailable(p)) {
+                selectedPort = p;
+                break;
+            }
+        }
+        if (selectedPort == -1) {
+            System.err.println("No available port found in range " + desiredPort + "-" + (desiredPort + 5) + ", attempting to use " + desiredPort);
+            selectedPort = desiredPort;
+        }
+        port(selectedPort);
+        System.out.println("Using port: " + selectedPort);
         get("/", (req, res) -> {
             res.type("text/html");
             return "<html><head><title>BomBomBaap</title>"
@@ -68,8 +94,42 @@ public class Main {
                 + "</div>"
                 + "</body></html>";
         });
+
+        String jsonString = """
+        {
+            "player": {
+                "name": "Player",
+                "id": 1,
+                "stats": [{
+                    "gamesPlayed": 0,
+                    "bouncers": 0,
+                    "palindromes": 0,
+                    "ELO": 1000
+                }]
+            }
+        }
+        """;
+        JSONObject jsonObject = new JSONObject(jsonString);
+
+        JSONObject player = jsonObject.getJSONObject("player");
+        System.out.println("player:" + player);
+        String name = player.getString("name");
+        System.out.println("name:" + name);
+        
+
+
         GamesCategories.registerRoutes();
         GamesNameIt.registerRoutes();
         GamesHitOrStand.registerRoutes();
     }
+
+    private static boolean isPortAvailable(int port) {
+        try (ServerSocket ss = new ServerSocket(port)) {
+            ss.setReuseAddress(true);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
 }

@@ -6,36 +6,6 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 
 public class GamesCategories {
-    private static final String[] CATEGORIES = {
-        "Things that are soft", "Things that are hard", "Things that are expensive", "Things that are cheap", "Things that are fast",
-        "Things that are slow", "Things that are loud", "Things that are quiet", "Things that are sweet", "Things that are sour",
-        "Things that are salty", "Things that are bitter", "Things that are spicy", "Things that are green", "Things that are red",
-        "Things that are yellow", "Things that are purple", "Things that are orange", "Things that are black", "Things that are white",
-        "Things that are brown", "Things that are pink", "Things that are silver", "Things that are gold", "Things that are transparent",
-        "Things that are sticky", "Things that are slippery", "Things that are fluffy", "Things that are shiny", "Things that are dull",
-        "Things that are square", "Things that are triangular", "Things that are rectangular", "Things that are cylindrical",
-        "Things that are electronic", "Things that are mechanical", "Things that are natural", "Things that are artificial",
-        "Things you find at the beach", "Things you find in the forest", "Things you find in the desert", "Things you find in the city",
-        "Things you find in the countryside", "Things you find in space", "Things you find underwater", "Things you find underground",
-        "Things you find in a school", "Things you find in a hospital", "Things you find in a supermarket", "Things you find in a restaurant",
-        "Things you find in a hotel", "Things you find in a zoo", "Things you find in a museum", "Things you find in a library",
-        "Things you find in a park", "Things you find in a playground", "Things you find in a gym", "Things you find in a stadium",
-        "Things you find in a church", "Things you find in a temple", "Things you find in a mosque", "Things you find in a bank",
-        "Things you find in an airport", "Things you find in a train station", "Things you find in a bus station", "Things you find in a garage",
-        "Things you find in a factory", "Things you find in an office", "Things you find in a farm", "Things you find in a zoo",
-        "Things you find in a circus", "Things you find in a theater", "Things you find in a cinema", "Things you find in a casino",
-        "Things you find in a prison", "Things you find in a police station", "Things you find in a fire station", "Things you find in a post office",
-        "Things you find in a shopping mall", "Things you find in a hair salon", "Things you find in a tattoo shop", "Things you find in a bakery",
-        "Things you find in a butcher shop", "Things you find in a pharmacy", "Things you find in a pet shop", "Things you find in a toy store",
-        "Things you find in a hardware store", "Things you find in a clothing store", "Things you find in a shoe store", "Things you find in a jewelry store",
-        "Things you find in a furniture store", "Things you find in a electronics store", "Things you find in a book store", "Things you find in a music store",
-        "Things you find in a sports store", "Things you find in a car dealership", "Things you find in a gas station", "Things you find in a laundromat",
-        "Things you find in a recycling center", "Things you find in a dump", "Things you find in a construction site", "Things you find in a warehouse",
-        "Things you find in a laboratory", "Things you find in a observatory", "Things you find in a power plant", "Things you find in a water treatment plant",
-        "Things you find in a wind farm", "Things you find in a solar farm", "Things you find in a nuclear plant", "Things you find in a military base",
-        "Things you find in a embassy", "Things you find in a consulate", "Things you find in a parliament", "Things you find in a court",
-        "Things you find in a jail", "Things you find in a morgue", "Things you find in a crematorium", "Things you find in a cemetery"
-    };
 
     private static final String[] categorien = {
         "Iets wat je op een kinderboerderij kan vinden",

@@ -1,0 +1,14 @@
+[
+    {
+        "player": {
+            "name": "Player",
+            "id": 1,
+            "stats": [{
+                "gamesPlayed": 0,
+                "bouncers": 0,
+                "palindromes": 0,
+                "ELO": 1000
+            }]
+        }
+    }
+]
