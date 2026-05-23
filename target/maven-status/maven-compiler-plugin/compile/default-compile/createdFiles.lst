@@ -1,7 +1,8 @@
-com/bombombaap/DeBoys.class
+com/bombombaap/PlayerBase$1.class
 com/bombombaap/Player.class
 com/bombombaap/GamesCategories.class
 com/bombombaap/GamesNameIt.class
-com/bombombaap/Main.class
+com/bombombaap/PlayerBase.class
 com/bombombaap/GamesHitOrStand.class
 com/bombombaap/BlackjackStrategy.class
+com/bombombaap/StatType.class

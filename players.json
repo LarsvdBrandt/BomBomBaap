@@ -1,0 +1,24 @@
+{"players": [
+  {
+    "stats": {
+      "bouncers": 0,
+      "gamesPlayed": 0,
+      "ELO": 1000,
+      "jillas": 0,
+      "palindromen": 0
+    },
+    "name": "Player",
+    "id": 1
+  },
+  {
+    "stats": {
+      "bouncers": 0,
+      "gamesPlayed": 0,
+      "ELO": 1000,
+      "jillas": 0,
+      "palindromen": 0
+    },
+    "name": "Miel",
+    "id": 2
+  }
+]}

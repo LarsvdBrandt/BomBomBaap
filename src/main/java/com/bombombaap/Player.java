@@ -2,7 +2,7 @@ package com.bombombaap;
 
 public class Player {
 
-    public final String playerId;
+    public final int playerId;
     public String name;
     public float ELO;
 
@@ -11,10 +11,18 @@ public class Player {
     public int jillas = 0;
     public int gamesPlayed = 0;
 
-    public Player(String playerId, String name){
+    public Player(int playerId, String name){
         this.playerId = playerId;
         this.name = name;
         this.ELO = 1000;
+    }
+
+    public void updateStats(int bouncers, int palindromen, int jillas, int gamesPlayed, float ELO){
+        this.bouncers += bouncers;
+        this.palindromen += palindromen;
+        this.jillas += jillas;
+        this.gamesPlayed += gamesPlayed;
+        this.ELO = ELO;
     }
     
 }
