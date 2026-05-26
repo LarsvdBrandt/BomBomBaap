@@ -1,11 +1,15 @@
 package com.bombombaap;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
 
 public class GamesCategories {
+
+    public static Map<Integer, Player> playerBase = new HashMap<>();
 
     private static final String[] categorien = {
         "Iets wat je op een kinderboerderij kan vinden",
@@ -309,35 +313,39 @@ public class GamesCategories {
         String leftBtnColor = error ? "#888" : "#d32f2f";
         String middleBtnColor = error ? "#d32f2f" : "#ffd600";
         String rightBtnColor = error ? "#888" : "#ffd600";
-        String btnStyle = "font-family:'Press Start 2P',monospace;padding:18px 36px;font-size:1.3em;border:4px solid #ffd600;border-radius:16px;cursor:pointer;margin:0 16px;min-width:160px;background:linear-gradient(135deg,#ffd600 0%,#d32f2f 50%,#1a7f2b 100%);color:#222;box-shadow:0 4px 24px #111,0 0 16px #ffd600;text-shadow:0 2px 8px #222;transition:background 0.2s,color 0.2s;outline:3px solid #ffd600;";
+        String btnStyle = "font-family:'Press Start 2P',monospace; padding:18px 36px; font-size:1.3em; border:4px solid #ffd600; border-radius:16px; cursor:pointer; margin:0 16px;min-width:160px;background:linear-gradient(135deg,#ffd600 0%,#d32f2f 50%,#1a7f2b 100%);color:#222;box-shadow:0 4px 24px #111,0 0 16px #ffd600;text-shadow:0 2px 8px #222;transition:background 0.2s,color 0.2s;outline:3px solid #ffd600;";
         String bigBtnStyle = "font-family:'Press Start 2P',monospace;padding:28px 56px;font-size:2.2em;border:4px solid #ffd600;border-radius:20px;cursor:pointer;margin:0 16px;min-width:200px;background:linear-gradient(135deg,#ffd600 0%,#d32f2f 50%,#1a7f2b 100%);color:#222;box-shadow:0 8px 32px #111,0 0 24px #ffd600;text-shadow:0 2px 8px #222;transition:background 0.2s,color 0.2s;outline:3px solid #ffd600;";
-        String timerDiv = (!error && started) ? "<div id='timer' style='font-family:inherit;font-size:2em;margin-bottom:10px;color:#ffd600;background:rgba(0,0,0,0.5);border:2px solid #ffd600;display:inline-block;padding:8px 24px;border-radius:12px;text-shadow:0 1px 2px #222;'></div>" : "";
+        String timerDiv = (!error && started) ? "<div id='timer' style='font-family:inherit;font-size:2em;margin-bottom:10px;color:#ffd600;background:rgba(0,0,0,0.5);border:2px solid #ffd60<PASSWORD>;display:inline-block;padding:8px 24px;border-radius:12px;text-shadow:<PASSWORD>;'></div>" : "";
         String errorMsg = error ? "<h1 style='font-family:inherit;color:#ffd600;background:rgba(50,0,0,0.7);border:2px solid #d32f2f;display:inline-block;padding:12px 32px;border-radius:16px;text-shadow:0 2px 8px #222;'>404 Error: Time's up!</h1>" : "";
-        String letterDiv = showLetter ? "<h2 style='color:#ffd600;text-shadow:0 0 8px #222;'>Letter: " + letter + "</h2>" : "";
-        String categoryDiv = "<h3 style='color:#fff;background:rgba(0,0,0,0.5);border:2px solid #ffd600;display:inline-block;padding:12px 32px;border-radius:16px;text-shadow:0 2px 8px #222;'>Category: " + category + "</h3>";
+        String letterDiv = showLetter ? "<h2 class='active-panel-title'>Letter: " + letter + "</h2>" : "";
+        String categoryDiv = "<h3 style='color:#fff; background:rgba(0,0,0,0.5); border:2px solid #ffd600;display:inline-block; padding:18px 28px; border-radius:32px; text-shadow:0 2px 8px #222;'>" + category + "</h3>";
         String counterDiv = "<div style='margin:20px 0;font-size:1.2em;color:#ffd600;background:rgba(0,0,0,0.7);border:1px solid #ffd600;display:inline-block;padding:8px 24px;border-radius:12px;'>"
-            + "<span>Bouncer: " + leftCounter + "</span> &nbsp; "
-            + "<span>Next: " + middleCounter + "</span> &nbsp; "
-            + "<span>Palindrome: " + rightCounter + "</span> &nbsp; "
+            + "<span>bouncers: " + leftCounter + "</span> &nbsp; "
+            + "<span>poffen: " + middleCounter + "</span> &nbsp; "
+            + "<span>palindromen: " + rightCounter + "</span> &nbsp; "
             + (error ? "<span>Try Again: " + tryAgainCounter + "</span> &nbsp; " : "")
             + "</div>";
         String totalDiv = "<div style='margin-top:40px;font-family:inherit;font-size:1.5em;background:rgba(0,0,0,0.8);color:#ffd600;padding:20px 40px;border-radius:24px;box-shadow:0 0 40px #222;text-shadow:0 2px 8px #222;border:3px solid #ffd600;display:inline-block;'>Pof counter: " + totalCounter + "</div>";
-        String homeBtn = "<a href='/' id='homebtn' style='position:fixed;top:24px;left:24px;z-index:10;text-decoration:none;'><button style='background:#222;border:3px solid #ffd600;border-radius:50%;width:64px;height:64px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px #111;cursor:pointer;'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='36' height='36' fill='#ffd600'><path d='M12 3l9 9-1.5 1.5L18 12.5V20a1 1 0 0 1-1 1h-4v-5H11v5H7a1 1 0 0 1-1-1v-7.5l-1.5 1.5L3 12l9-9z'/></svg></button></a>";
+        String homeBtn = "<a href='/' id='homebtn' style='position:fixed; top:24px; left:24px; z-index:10; text-decoration:none;'><button style='background:#222; border:3px solid #ffd600; border-radius:50%; width:64px; height:64px; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px #111; cursor:pointer;'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='36' height='36' fill='#ffd600'><path d='M12 3l9 9-1.5 1.5L18 12.5V20a1 1 0 0 1-1 1h-4v-5H11v5H7a1 1 0 0 1-1-1v-7.5l-1.5 1.5L3 12l9-9z'/></svg></button></a>";
         StringBuilder html = new StringBuilder();
         html.append("<html><head><title>BomBomBaap</title>");
         html.append("<link href='https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap' rel='stylesheet'>");
         html.append("<style>");
-        html.append("body{font-family:'Press Start 2P',monospace;text-align:center;background:#222;min-height:100vh;overflow-x:hidden;}");
+        html.append("body{font-family:'Press Start 2P', monospace; text-align:center; background:#222; min-height:100vh; overflow-x:hidden; overflow-y:auto; scrollbar-width:none; -ms-overflow-style:none; padding:32px 360px 48px 32px;}");
+        html.append("body::-webkit-scrollbar{width:0;height:0;}");
         html.append(".starbg{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;}");
-        html.append(".arcade-frame{position:relative;z-index:1;max-width:800px;margin:60px auto 0 auto;padding:40px 20px 32px 20px;background:linear-gradient(135deg,#222 60%,#333 100%);border:8px solid #ffd600;border-radius:32px;box-shadow:0 0 60px #000,0 0 0 12px #d32f2f,0 0 0 24px #388e3c;}");
+        html.append(".arcade-frame{position:relative;z-index:1;max-width:720px;margin:72px auto 0 auto;padding:44px 24px 36px 24px;background:linear-gradient(135deg,#222 60%,#333 100%);border:4px solid #ffd600;border-radius:24px;box-shadow:0 0 44px #000, 0 0 0 6px #d32f2f, 0 0 0 12px #388e3c;}");
         html.append("h1,h2,h3{font-family:inherit;}");
-        html.append("#btnrow{display:flex;justify-content:center;align-items:center;margin-top:30px;z-index:2;}#btnrow button{margin:0 10px;}@media(max-width:600px){#btnrow{flex-direction:column;}#btnrow button{margin:10px 0;}}#homebtn button:hover{background:#ffd600;color:#222;}#homebtn svg{vertical-align:middle;}");
-        html.append(".arcade-btns{display:flex;flex-direction:column;gap:32px;margin-top:40px;}"
-                + "button.arcade-btn{font-family:'Press Start 2P',monospace;font-size:1.2em;padding:24px 0;border:4px solid #ffd600;border-radius:16px;background:#222;color:#ffd600;box-shadow:0 4px 0 #d32f2f,0 8px 0 #388e3c,0 0 16px #ffd600;cursor:pointer;transition:background 0.2s, color 0.2s;width:70%;max-width:400px;min-width:180px;margin:0 auto;text-shadow:0 0 8px #ffd600;}"
-                + "button.arcade-btn:hover{background:#ffd600;color:#222;text-shadow:0 0 8px #222;}");
+        html.append(".active-panel-title{margin:0 0 18px 0;font-size:0.95em;line-height:1.4;letter-spacing:2px;color:#ffd600;text-shadow:0 0 8px #ffd600, 0 0 24px #d32f2f, 0 0 32px #388e3c;}");
+        html.append(".side-panel{position:fixed; top:108px; right:24px; width:260px; max-height:calc(100vh - 156px); overflow-y:auto; scrollbar-width:none; -ms-overflow-style:none; padding:18px 14px; background:linear-gradient(135deg, #2a2a2a 0%, #1c1c1c 52%, #2f2f2f 100%); border:4px solid #ffd600; border-radius:22px; box-shadow:0 0 44px #000, 0 0 0 6px #d32f2f, 0 0 0 12px #388e3c; z-index:1; }.side-panel::-webkit-scrollbar{width:0;height:0;}.panel-title{margin:0 0 18px 0; font-size:0.95em; line-height:1.4; text-shadow:0 0 8px #ffd600, 0 0 24px #d32f2f, 0 0 32px #388e3c;}.player-list{display:flex; flex-direction:column; gap:14px;}.player-card{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px; border:2px solid #ffd600; border-radius:16px; background:rgba(0,0,0,0.35);}.player-meta{text-align:left; min-width:0;}.player-name{font-size:0.8em; line-height:1.35; margin-bottom:8px; color:#fff7b3; word-break:break-word;}.player-elo{font-size:0.65em; color:#ffd600;}.player-add{font-family:'Press Start 2P', monospace; width:48px; height:48px; border:3px solid #ffd600; border-radius:14px; background:linear-gradient(135deg, #222 0%, #111 100%); color:#ffd600; box-shadow:0 4px 0 #d32f2f, 0 8px 0 #388e3c, 0 0 16px #ffd600; cursor:pointer; font-size:1.05em; line-height:1;}.player-empty{font-size:0.7em; line-height:1.6; color:#fff7b3;}@media(max-width:1100px){body{padding-right:0;}.side-panel{position:static; width:auto; max-width:500px; margin:24px auto 0 auto;}} ");
+        html.append("#btnrow{display:flex; justify-content:center; align-items:center; gap:20px; margin-top:36px; z-index:2;}#btnrow button{margin:0;}@media(max-width:600px){#btnrow{flex-direction:column;}#btnrow button{margin:10px 0;}}#homebtn button:hover{background:#ffd600; color:#222;}#homebtn svg{vertical-align:middle;}");
+        html.append(".arcade-btns{display:flex; flex-direction:column; gap:34px; margin-top:44px;}"
+            + "button.arcade-btn{font-family:'Press Start 2P', monospace; font-size:1.2em; padding:26px 0; border:4px solid #ffd600; border-radius:16px; background:#222; color:#ffd600; box-shadow:0 4px 0 #d32f2f, 0 8px 0 #388e3c, 0 0 16px #ffd600; cursor:pointer; transition:background 0.2s, color 0.2s; width:70%; max-width:400px; min-width:180px; margin:0 auto; text-shadow:0 0 8px #ffd600;}"
+            + "button.arcade-btn:hover{background:#ffd600; color:#222; text-shadow:0 0 8px #222;}");
         html.append("</style>");
         html.append("<script>");
-        html.append("let timer;let timeLeft=15;function startTimer(){document.getElementById('timer').innerText='Timer: '+timeLeft+'s';timer=setInterval(function(){timeLeft--;document.getElementById('timer').innerText='Timer: '+timeLeft+'s';if(timeLeft<=0){clearInterval(timer);fetch('/timeout',{method:'POST'}).then(function(){location.reload();});}},1000);}function next(){fetch('/next',{method:'POST'}).then(function(){location.reload();});}function left(){fetch('/left',{method:'POST'}).then(function(){location.reload();});}function right(){fetch('/right',{method:'POST'}).then(function(){location.reload();});}window.onload=function(){if(");
+        html.append("/* Timing and starfield behavior */");
+        html.append("let timer;let timeLeft=30;function startTimer(){document.getElementById('timer').innerText='Timer: '+timeLeft+'s';timer=setInterval(function(){timeLeft--;document.getElementById('timer').innerText='Timer: '+timeLeft+'s';if(timeLeft<=0){clearInterval(timer);fetch('/timeout',{method:'POST'}).then(function(){location.reload();});}},1000);}function next(){fetch('/next',{method:'POST'}).then(function(){location.reload();});}function left(){fetch('/left',{method:'POST'}).then(function(){location.reload();});}function right(){fetch('/right',{method:'POST'}).then(function(){location.reload();});}window.onload=function(){if(");
         html.append(started);
         html.append("&&!" );
         html.append(error);
@@ -346,8 +354,10 @@ public class GamesCategories {
         // Arcade star background animation
         html.append("document.addEventListener('DOMContentLoaded',function(){let canvas=document.createElement('canvas');canvas.className='starbg';canvas.width=window.innerWidth;canvas.height=window.innerHeight;document.body.appendChild(canvas);let ctx=canvas.getContext('2d');let stars=[];for(let i=0;i<120;i++){stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,speed:Math.random()*0.7+0.3});}function drawStars(){ctx.clearRect(0,0,canvas.width,canvas.height);for(let s of stars){ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,2*Math.PI);ctx.fillStyle='#ffd600';ctx.shadowColor='#fff';ctx.shadowBlur=8;ctx.fill();s.x+=s.speed;if(s.x>canvas.width){s.x=0;s.y=Math.random()*canvas.height;}}requestAnimationFrame(drawStars);}drawStars();});");
         html.append("</script></head><body>");
+        html.append("<!-- Home button -->");
         html.append(homeBtn);
         html.append("<div class='starbg'></div><div class='arcade-frame'>");
+        html.append("<!-- Category prompt and controls -->");
         html.append(errorMsg).append("<br>").append(letterDiv);
         if (started) {
             html.append("<br>").append(timerDiv).append("<br>").append(categoryDiv).append("<br>");
@@ -358,13 +368,13 @@ public class GamesCategories {
             html.append(leftBtnColor);
             html.append(";' class='arcade-btn' onmouseover=\"this.style.background='#ffd600';this.style.color='#222';\" onmouseout=\"this.style.background='#222';this.style.color='#ffd600';\"  onclick='left()' ");
             html.append(error ? "disabled" : "");
-            html.append(">Bouncer</button>");
+            html.append(">bouncer</button>");
             html.append("<button style='");
             html.append(bigBtnStyle);
             html.append("background:");
             html.append(middleBtnColor);
             html.append(";' class='arcade-btn' onmouseover=\"this.style.background='#ffd600';this.style.color='#222';\" onmouseout=\"this.style.background='#222';this.style.color='#ffd600';\" onclick='next()'>");
-            html.append(error ? "Try Again" : "Next");
+            html.append(error ? "Try Again" : "pof");
             html.append("</button>");
             html.append("<button style='");
             html.append(btnStyle);
@@ -372,7 +382,7 @@ public class GamesCategories {
             html.append(rightBtnColor);
             html.append(";' class='arcade-btn' onmouseover=\"this.style.background='#ffd600';this.style.color='#222';\" onmouseout=\"this.style.background='#222';this.style.color='#ffd600';\" onclick='right()' ");
             html.append(error ? "disabled" : "");
-            html.append(">Palindrome</button>");
+            html.append(">palindroom</button>");
             html.append("</div>");
             html.append(counterDiv);
         } else {
@@ -389,7 +399,17 @@ public class GamesCategories {
             html.append("<br><form><button type='button' style='font-family:inherit;margin-top:20px;padding:12px 36px;font-size:1.2em;border:2px solid #ffd600;border-radius:16px;background:#222;color:#ffd600;cursor:pointer;box-shadow:0 2px 12px #111;text-shadow:0 2px 8px #222;' onclick=\"fetch('/reset',{method:'POST'}).then(()=>location.reload())\">Reset</button></form>");
         }
         html.append("</div>");
+        html.append("<!-- Active player roster -->");
+        html.append(Main.renderActivePlayersPanel());
         html.append("</body></html>");
         return html.toString();
+    }
+
+    private static void resetStats() {
+        leftCounter = 0;
+        middleCounter = 0;
+        rightCounter = 0;
+        tryAgainCounter = 0;
+        totalCounter = 0;
     }
 }

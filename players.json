@@ -7,8 +7,8 @@
       "jillas": 0,
       "palindromen": 0
     },
-    "name": "Player",
-    "id": 1
+    "name": "Miel",
+    "id": 2
   },
   {
     "stats": {
@@ -18,7 +18,95 @@
       "jillas": 0,
       "palindromen": 0
     },
-    "name": "Miel",
-    "id": 2
+    "name": "Vicca",
+    "id": 4
+  },
+  {
+    "stats": {
+      "bouncers": 0,
+      "gamesPlayed": 0,
+      "ELO": 1000,
+      "jillas": 0,
+      "palindromen": 0
+    },
+    "name": "Arnouts",
+    "id": 5
+  },
+  {
+    "stats": {
+      "bouncers": 0,
+      "gamesPlayed": 0,
+      "ELO": 1000,
+      "jillas": 0,
+      "palindromen": 0
+    },
+    "name": "Player 1",
+    "id": 6
+  },
+  {
+    "stats": {
+      "bouncers": 0,
+      "gamesPlayed": 0,
+      "ELO": 1000,
+      "jillas": 0,
+      "palindromen": 0
+    },
+    "name": "Mattie",
+    "id": 7
+  },
+  {
+    "stats": {
+      "bouncers": 0,
+      "gamesPlayed": 0,
+      "ELO": 1000,
+      "jillas": 0,
+      "palindromen": 0
+    },
+    "name": "Ballie",
+    "id": 8
+  },
+  {
+    "stats": {
+      "bouncers": 0,
+      "gamesPlayed": 0,
+      "ELO": 1000,
+      "jillas": 0,
+      "palindromen": 0
+    },
+    "name": "jezus",
+    "id": 9
+  },
+  {
+    "stats": {
+      "bouncers": 0,
+      "gamesPlayed": 0,
+      "ELO": 1000,
+      "jillas": 0,
+      "palindromen": 0
+    },
+    "name": "willie",
+    "id": 10
+  },
+  {
+    "stats": {
+      "bouncers": 0,
+      "gamesPlayed": 0,
+      "ELO": 1000,
+      "jillas": 0,
+      "palindromen": 0
+    },
+    "name": "woetroe",
+    "id": 11
+  },
+  {
+    "stats": {
+      "bouncers": 0,
+      "gamesPlayed": 0,
+      "ELO": 1000,
+      "jillas": 0,
+      "palindromen": 0
+    },
+    "name": "draaijer",
+    "id": 12
   }
 ]}

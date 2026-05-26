@@ -146,7 +146,6 @@ private static final String[] DRUG_PROMPTS = {
     private static String currentPrompt = "";
     private static String currentCategory = "";
     private static boolean show404 = false;
-    private static int nextCounter = 0;
     // Removed unused variable tryAgainCounter
     private static int totalCounter = 0;
     private static boolean started = false;
@@ -190,14 +189,12 @@ private static final String[] DRUG_PROMPTS = {
             }
             showCategories = true;
             started = false;
-            nextCounter++;
             totalCounter += 1;
             currentPrompt = "";
             currentCategory = "";
             return "ok";
         });
         post("/resetnameit", (req, res) -> {
-            nextCounter = 0;
             totalCounter = 0;
             show404 = false;
             started = false;
@@ -213,18 +210,15 @@ private static final String[] DRUG_PROMPTS = {
     }
 
     private static String randomPromptForCategory(String category) {
-        String[] pool;
-        switch (category) {
-            case "Films":
-                pool = MOVIE_PROMPTS; break;
-            case "Muziek":
-                pool = MUSIC_PROMPTS; break;
-            case "Landen":
-                pool = COUNTRY_PROMPTS; break;
-            case "Drugs":
-                pool = DRUG_PROMPTS; break;
-            default:
-                return "Name something";
+        String[] pool = switch (category) {
+            case "Films" -> MOVIE_PROMPTS;
+            case "Muziek" -> MUSIC_PROMPTS;
+            case "Landen" -> COUNTRY_PROMPTS;
+            case "Drugs" -> DRUG_PROMPTS;
+            default -> null;
+        };
+        if (pool == null) {
+            return "Name something";
         }
 
         // Try to pick an unused prompt; if all used, inform the player
@@ -265,17 +259,19 @@ private static final String[] DRUG_PROMPTS = {
         html.append("<html><head><title>Name It</title>");
         html.append("<link href='https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap' rel='stylesheet'>");
         html.append("<style>");
-        html.append("body{font-family:'Press Start 2P',monospace;text-align:center;background:#222;min-height:100vh;overflow-x:hidden;}");
+        html.append("body{font-family:'Press Start 2P', monospace; text-align:center; background:#222; min-height:100vh; overflow-x:hidden; overflow-y:auto; scrollbar-width:none; -ms-overflow-style:none; padding:32px 360px 48px 32px;}");
+        html.append("body::-webkit-scrollbar{width:0;height:0;}");
         html.append(".starbg{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;}");
-        html.append(".arcade-frame{position:relative;z-index:1;max-width:500px;margin:60px auto 0 auto;padding:40px 20px 32px 20px;background:linear-gradient(135deg,#222 60%,#333 100%);border:8px solid #ffd600;border-radius:32px;box-shadow:0 0 60px #000,0 0 0 12px #d32f2f,0 0 0 24px #388e3c;}");
-        html.append("}");
+        html.append(".arcade-frame{position:relative;z-index:1;max-width:500px;margin:72px auto 0 auto;padding:56px 28px 44px 28px;background:linear-gradient(135deg,#222 60%,#333 100%);border:8px solid #ffd600;border-radius:32px;box-shadow:0 0 60px #000, 0 0 0 12px #d32f2f, 0 0 0 24px #388e3c;}");
         html.append("h1,h2,h3{font-family:inherit;}");
-        html.append("#btnrow{display:flex;justify-content:center;align-items:center;margin-top:30px;z-index:2;}#btnrow button{margin:0 10px;}@media(max-width:600px){#btnrow{flex-direction:column;}#btnrow button{margin:10px 0;}}#homebtn button:hover{background:#ffd600;color:#222;}#homebtn svg{vertical-align:middle;}.catrow{display:flex;justify-content:center;align-items:center;gap:40px;margin-top:60px;z-index:2;}.catbtn{background:#222;border:3px solid #ffd600;border-radius:20px;padding:32px 40px;display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:background 0.2s,color 0.2s;box-shadow:0 2px 16px #111;}.catbtn:hover{background:#ffd600;color:#222;}.caticon{font-size:3em;margin-bottom:16px;}.catlabel{font-size:1.2em;font-weight:bold;letter-spacing:2px;}");
-        html.append(".arcade-btns2{display:flex;flex-direction:column;gap:32px;margin-top:40px;}"
-                + "button.arcade-btn{font-family:'Press Start 2P',monospace;font-size:1.2em;padding:24px 0;border:4px solid #ffd600;border-radius:16px;background:#222;color:#ffd600;box-shadow:0 4px 0 #d32f2f,0 8px 0 #388e3c,0 0 16px #ffd600;cursor:pointer;transition:background 0.2s, color 0.2s;width:70%;max-width:400px;min-width:180px;margin:0 auto;text-shadow:0 0 8px #ffd600;}"
-                + "button.arcade-btn:hover{background:#ffd600;color:#222;text-shadow:0 0 8px #222;}");
+            html.append(".side-panel{position:fixed; top:92px; right:20px; width:300px; max-height:calc(100vh - 120px); overflow-y:auto; scrollbar-width:none; -ms-overflow-style:none;padding:28px 20px; background:linear-gradient(135deg, #2a2a2a 0%, #1c1c1c 52%, #2f2f2f 100%);border:8px solid #ffd600; border-radius:30px; box-shadow:0 0 60px #000, 0 0 0 12px #d32f2f, 0 0 0 24px #388e3c;z-index:1;}.side-panel::-webkit-scrollbar{width:0 ; height:0;}.panel-title{margin:0 0 18px 0;font-size:1.05em;line-height:1.4;text-shadow:0 0 8px #ffd600, 0 0 24px #d32f2f, 0 0 32px #388e3c;}.player-list{display:flex;flex-direction:column;gap:14px;}.player-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;border:2px solid #ffd600;border-radius:16px;background:rgba(0,0,0,0.35);}.player-meta{text-align:left;min-width:0;}.player-name{font-size:0.8em;line-height:1.35;margin-bottom:8px;color:#fff7b3;word-break:break-word;}.player-elo{font-size:0.65em;color:#ffd600;}.player-add{font-family:'Press Start 2P', monospace; width:48px; height:48px; border:3px solid #ffd600; border-radius:14px; background:linear-gradient(135deg, #222 0%, #111 100%); color:#ffd600; box-shadow:0 4px 0 #d32f2f, 0 8px 0 #388e3c, 0 0 16px #ffd600; cursor:pointer; font-size:1.05em; line-height:1;}.player-empty{font-size:0.7em; line-height:1.6; color:#fff7b3;}@media(max-width:1100px){body{padding-right:0;}.side-panel{position:static;width:auto;max-width:500px;margin:24px auto 0 auto;}} ");
+        html.append("#btnrow{display:flex;justify-content:center;align-items:center;gap:20px;margin-top:36px;z-index:2;}#btnrow button{margin:0;}@media(max-width:600px){#btnrow{flex-direction:column;}#btnrow button{margin:10px 0;}}#homebtn button:hover{background:#ffd600;color:#222;}#homebtn svg{vertical-align:middle;}.catrow{display:flex;justify-content:center;align-items:center;gap:40px;margin-top:60px;z-index:2;}.catbtn{background:#222;border:3px solid #ffd600;border-radius:20px;padding:32px 40px;display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:background 0.2s,color 0.2s;box-shadow:0 2px 16px #111;}.catbtn:hover{background:#ffd600;color:#222;}.caticon{font-size:3em;margin-bottom:16px;}.catlabel{font-size:1.2em;font-weight:bold;letter-spacing:2px;}");
+        html.append(".arcade-btns2{display:flex;flex-direction:column;gap:34px;margin-top:44px;}"
+            + "button.arcade-btn{font-family:'Press Start 2P', monospace; font-size:1.2em; padding:26px 0; border:4px solid #ffd600; border-radius:16px; background:#222; color:#ffd600; box-shadow:0 4px 0 #d32f2f, 0 8px 0 #388e3c, 0 0 16px #ffd600; cursor:pointer; transition:background 0.2s, color 0.2s; width:70%; max-width:400px; min-width:180px; margin:0 auto; text-shadow:0 0 8px #ffd600;}"
+            + "button.arcade-btn:hover{background:#ffd600; color:#222; text-shadow:0 0 8px #222;}");
         html.append("</style>");
         html.append("<script>");
+        html.append("/* Category selection, timer, and background animation */");
         html.append("let timer;let timeLeft=15;function startTimer(){document.getElementById('timer').innerText='Timer: '+timeLeft+'s';timer=setInterval(function(){timeLeft--;document.getElementById('timer').innerText='Timer: '+timeLeft+'s';if(timeLeft<=0){clearInterval(timer);fetch('/timeoutnameit',{method:'POST'}).then(function(){location.reload();});}},1000);}function next(){fetch('/nextnameit',{method:'POST'}).then(function(){location.reload();});}function selectCategory(cat){fetch('/selectcategory',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'category='+cat}).then(function(){location.reload();});}window.onload=function(){if(");
         html.append(started);
         html.append("&&!" );
@@ -296,14 +292,16 @@ private static final String[] DRUG_PROMPTS = {
             + "});"
         );
         html.append("</script></head><body>");
+        html.append("<!-- Top controls -->");
         html.append(homeBtn);
         html.append("<div class='arcade-frame'>");
+        html.append("<!-- Prompt / category selection area -->");
         html.append("<div class='arcade-btns'>");
         html.append(errorMsg).append("<br>");
         if (showCategories && !autoMode) {
-            html.append("<form><button class='arcade-btn' type='button' onclick=\"selectCategory('Movies')\">Movies</button></form>");
-            html.append("<form><button class='arcade-btn' type='button' onclick=\"selectCategory('Music')\">Music</button></form>");
-            html.append("<form><button class='arcade-btn' type='button' onclick=\"selectCategory('Countries')\">Countries</button></form>");
+            html.append("<form><button class='arcade-btn' type='button' onclick=\"selectCategory('Films')\">Movies</button></form>");
+            html.append("<form><button class='arcade-btn' type='button' onclick=\"selectCategory('Muziek')\">Music</button></form>");
+            html.append("<form><button class='arcade-btn' type='button' onclick=\"selectCategory('Landen')\">Countries</button></form>");
             html.append("<form><button class='arcade-btn' type='button' onclick=\"selectCategory('Drugs')\">Drugs</button></form>");
         } else if (started || (showCategories && autoMode)) {
             // If autoMode is enabled and showCategories is true, immediately pick a category and start
@@ -327,6 +325,8 @@ private static final String[] DRUG_PROMPTS = {
             html.append("<form><button class='arcade-btn' type='button' style='margin-top:10px;' onclick=\"fetch('/nextnameit',{method:'POST'}).then(()=>location.reload())\">Next</button></form>");
         }
         html.append("</div>");
+        html.append("<!-- Active players sidebar -->");
+        html.append(Main.renderActivePlayersPanel());
         html.append("</body></html>");
         return html.toString();
     }

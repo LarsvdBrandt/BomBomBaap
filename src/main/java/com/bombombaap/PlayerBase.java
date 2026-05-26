@@ -3,6 +3,7 @@ package com.bombombaap;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,7 +60,7 @@ public class PlayerBase {
         saveJSON();
     }
 
-    public static Player getPlayer(int playerId, String name) {
+    public Player getPlayer(int playerId, String name) {
         if (playerBase.containsKey(playerId)) {
             return playerBase.get(playerId);
         } else {
@@ -96,6 +97,10 @@ public class PlayerBase {
         for (Player p : playerBase.values()) {
             System.out.println("ID: " + p.playerId + ", Name: " + p.name + ", ELO: " + p.ELO);
         }
+    }
+
+    public Collection<Player> getPlayers() {
+        return playerBase.values();
     }
 
     public void saveJSON() {

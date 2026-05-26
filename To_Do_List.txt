@@ -1,0 +1,4 @@
+[] voeg een 'undo' button toe voor als je skaffa op de verkeerde knop klikt
+[] fix de volgorde van de active player list
+[] integreer de volgorde in de game en track de stats 
+[] bouw een formule voor de ELO rankings 
