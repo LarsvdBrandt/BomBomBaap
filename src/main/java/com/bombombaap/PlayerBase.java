@@ -25,6 +25,8 @@ public class PlayerBase {
             int id = player.getInt("id");
             JSONObject stats = extractStats(player);
             float ELO = (float) stats.getDouble("ELO");
+            int poffen = stats.optInt("poffen", 0);
+            int beurtenGehad = stats.optInt("beurtenGehad", 0);
             int jillas = stats.optInt("jillas", 0);
             int bouncers = stats.optInt("bouncers", 0);
             int palindromen = stats.optInt("palindromes", 0);
@@ -32,7 +34,7 @@ public class PlayerBase {
 
             Player newPlayer = new Player(id, name);
             playerBase.put(id, newPlayer);
-            newPlayer.updateStats(bouncers, palindromen, jillas, gamesPlayed, ELO);
+            newPlayer.updateStats(poffen, beurtenGehad, bouncers, palindromen, jillas, gamesPlayed, ELO);
             System.out.println("Loaded player: " + name + " with ID: " + id);
         }
     }
@@ -51,10 +53,13 @@ public class PlayerBase {
         if (p == null) return;
 
         switch (stat) {
+
             case BOUNCERS -> p.bouncers += value;
+            case BEURTEN_GEHAD -> p.beurtenGehad += value;
             case PALINDROMEN -> p.palindromen += value;
             case JILLAS -> p.jillas += value;
             case GAMES_PLAYED -> p.gamesPlayed += value;
+            case POFFEN -> p.poffen += value;
         }
 
         saveJSON();
@@ -108,16 +113,52 @@ public class PlayerBase {
         JSONArray playerArray = new JSONArray();
 
         for (Player p : playerBase.values()) {
+            p.updateELO();
             JSONObject obj = new JSONObject();
 
             obj.put("id", p.playerId);
             obj.put("name", p.name);
 
             JSONObject stats = new JSONObject();
+            stats.put("poffen", p.poffen);
+            stats.put("beurtenGehad", p.beurtenGehad);
             stats.put("gamesPlayed", p.gamesPlayed);
             stats.put("jillas", p.jillas);
             stats.put("bouncers", p.bouncers);
             stats.put("palindromen", p.palindromen);
+            stats.put("ELO", p.ELO);
+
+            obj.put("stats", stats);
+
+            playerArray.put(obj);
+
+        }
+        root.put("players", playerArray);
+        try {
+            Files.writeString(Paths.get("players.json"), root.toString(2));
+        } catch (IOException e) {
+            throw new IllegalStateException("Failed to write players.json", e);
+        }
+    }
+
+    public void resetPlayerBaseStats() {
+        JSONObject root = new JSONObject();
+        JSONArray playerArray = new JSONArray();
+
+        for (Player p : playerBase.values()) {
+            p.resetStats();
+            JSONObject obj = new JSONObject();
+
+            obj.put("id", p.playerId);
+            obj.put("name", p.name);
+
+            JSONObject stats = new JSONObject();
+            stats.put("poffen", 0);
+            stats.put("beurtenGehad", 0);
+            stats.put("gamesPlayed", 0);
+            stats.put("jillas", 0);
+            stats.put("bouncers", 0);
+            stats.put("palindromen", 0);
             stats.put("ELO", p.ELO);
 
             obj.put("stats", stats);

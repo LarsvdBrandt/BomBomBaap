@@ -1,10 +1,12 @@
 {"players": [
   {
     "stats": {
+      "beurtenGehad": 21,
+      "poffen": 23,
       "bouncers": 0,
-      "gamesPlayed": 0,
-      "ELO": 1000,
-      "jillas": 0,
+      "gamesPlayed": 4,
+      "ELO": 1055,
+      "jillas": 2,
       "palindromen": 0
     },
     "name": "Miel",
@@ -12,72 +14,47 @@
   },
   {
     "stats": {
+      "beurtenGehad": 19,
+      "poffen": 19,
       "bouncers": 0,
-      "gamesPlayed": 0,
-      "ELO": 1000,
-      "jillas": 0,
+      "gamesPlayed": 4,
+      "ELO": 1065,
+      "jillas": 1,
       "palindromen": 0
     },
-    "name": "Vicca",
+    "name": "vicca",
+    "id": 3
+  },
+  {
+    "stats": {
+      "beurtenGehad": 18,
+      "poffen": 18,
+      "bouncers": 0,
+      "gamesPlayed": 4,
+      "ELO": 970,
+      "jillas": 4,
+      "palindromen": 0
+    },
+    "name": "arnouts",
     "id": 4
   },
   {
     "stats": {
+      "beurtenGehad": 0,
+      "poffen": 0,
       "bouncers": 0,
       "gamesPlayed": 0,
       "ELO": 1000,
       "jillas": 0,
       "palindromen": 0
     },
-    "name": "Arnouts",
+    "name": "mattie",
     "id": 5
   },
   {
     "stats": {
-      "bouncers": 0,
-      "gamesPlayed": 0,
-      "ELO": 1000,
-      "jillas": 0,
-      "palindromen": 0
-    },
-    "name": "Player 1",
-    "id": 6
-  },
-  {
-    "stats": {
-      "bouncers": 0,
-      "gamesPlayed": 0,
-      "ELO": 1000,
-      "jillas": 0,
-      "palindromen": 0
-    },
-    "name": "Mattie",
-    "id": 7
-  },
-  {
-    "stats": {
-      "bouncers": 0,
-      "gamesPlayed": 0,
-      "ELO": 1000,
-      "jillas": 0,
-      "palindromen": 0
-    },
-    "name": "Ballie",
-    "id": 8
-  },
-  {
-    "stats": {
-      "bouncers": 0,
-      "gamesPlayed": 0,
-      "ELO": 1000,
-      "jillas": 0,
-      "palindromen": 0
-    },
-    "name": "jezus",
-    "id": 9
-  },
-  {
-    "stats": {
+      "beurtenGehad": 0,
+      "poffen": 0,
       "bouncers": 0,
       "gamesPlayed": 0,
       "ELO": 1000,
@@ -85,28 +62,19 @@
       "palindromen": 0
     },
     "name": "willie",
-    "id": 10
+    "id": 6
   },
   {
     "stats": {
+      "beurtenGehad": 0,
+      "poffen": 0,
       "bouncers": 0,
       "gamesPlayed": 0,
       "ELO": 1000,
       "jillas": 0,
       "palindromen": 0
     },
-    "name": "woetroe",
-    "id": 11
-  },
-  {
-    "stats": {
-      "bouncers": 0,
-      "gamesPlayed": 0,
-      "ELO": 1000,
-      "jillas": 0,
-      "palindromen": 0
-    },
-    "name": "draaijer",
-    "id": 12
+    "name": "sas",
+    "id": 7
   }
 ]}

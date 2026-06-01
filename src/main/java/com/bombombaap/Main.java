@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -18,7 +19,41 @@ import static spark.Spark.post;
 public class Main {
     
     // private static final Set<Integer> activePlayerIds = new LinkedHashSet<>();
-    private static final List<Player> activePlayerIds = new ArrayList<>();
+    public static final List<Player> activePlayers = new ArrayList<>();
+    public static Integer currentActivePlayerId = null;
+    public static PlayerBase playerBase;
+
+    public static List<Player> getActivePlayers() {
+        synchronized (activePlayers) {
+            return Collections.unmodifiableList(new ArrayList<>(activePlayers));
+        }
+    }
+
+    public static void setActivePlayers(List<Player> updatedPlayers) {
+        synchronized (activePlayers) {
+            activePlayers.clear();
+            if (updatedPlayers == null) {
+                return;
+            }
+            for (Player p : updatedPlayers) {
+                if (p != null && !activePlayers.contains(p)) {
+                    activePlayers.add(p);
+                }
+            }
+        }
+    }
+
+    public static void saveData() {
+        playerBase.saveJSON();
+    }
+
+    public static void setCurrentActivePlayer(Player player) {
+        currentActivePlayerId = player == null ? null : player.playerId;
+    }
+
+    public static Integer getCurrentActivePlayerId() {
+        return currentActivePlayerId;
+    }
 
     public static void main(String[] args) throws IOException {
         int basePort = 3004;
@@ -50,9 +85,10 @@ public class Main {
         String jsonString = loadPlayersJSON();
         JSONObject players = new JSONObject(jsonString);
 
-        PlayerBase playerBase = new PlayerBase();
+        playerBase = new PlayerBase();
         playerBase.copyPlayerBase(players.getJSONArray("players"));
         playerBase.printPlayerBase();
+        //playerBase.resetPlayerBaseStats();
 
         get("/", (req, res) -> {
             res.type("text/html");
@@ -148,14 +184,15 @@ public class Main {
                 try {
                     int id = Integer.parseInt(playerId.trim());
                     Player p = playerBase.getPlayer(id, "");
-                    if (p != null && !activePlayerIds.contains(p)) {
-                        activePlayerIds.add(p);
+                    if (p != null && !activePlayers.contains(p)) {
+                        activePlayers.add(p);
+                        p.setGamesPlayed(1);
                     }
                 } catch (NumberFormatException ignored) {
                     // ignore malformed ids
                 }
             }
-            res.redirect("/");
+            redirectBack(req.headers("Referer"), res);
             return "";
         });
 
@@ -166,20 +203,58 @@ public class Main {
                     int id = Integer.parseInt(playerId.trim());
                     Player p = playerBase.getPlayer(id, "");
                     if (p != null) {
-                        activePlayerIds.remove(p);
+                        activePlayers.remove(p);
+                        p.setGamesPlayed(-1);
                     }
                 } catch (NumberFormatException ignored) {
                     // Ignore malformed ids.
                 }
             }
+            redirectBack(req.headers("Referer"), res);
+            return "";
+        });
+        post("/move-active-player", (req, res) -> {
+            String playerId = req.queryParams("playerId");
+            String direction = req.queryParams("direction");
+            if (playerId != null && !playerId.isBlank() && direction != null && !direction.isBlank()) {
+                try {
+                    int id = Integer.parseInt(playerId.trim());
+                    moveActivePlayer(id, direction.trim());
+                } catch (NumberFormatException ignored) {
+                    // ignore malformed ids
+                }
+            }
+            redirectBack(req.headers("Referer"), res);
+            return "";
+        });
+
+        post("/reset-all-stats", (req, res) -> {
+            playerBase.resetPlayerBaseStats();
+            activePlayers.clear();
+            currentActivePlayerId = null;
             res.redirect("/");
             return "";
         });
 
-        GamesCategories.registerRoutes();
-        GamesNameIt.registerRoutes();
-        GamesHitOrStand.registerRoutes();
-    }
+        try {
+            GamesCategories.registerRoutes();
+        } catch (Throwable t) {
+            System.err.println("Failed to register GamesCategories routes:");
+            t.printStackTrace();
+        }
+        try {
+            GamesNameIt.registerRoutes();
+        } catch (Throwable t) {
+            System.err.println("Failed to register GamesNameIt routes:");
+            t.printStackTrace();
+        }
+        try {
+            GamesHitOrStand.registerRoutes();
+        } catch (Throwable t) {
+            System.err.println("Failed to register GamesHitOrStand routes:");
+            t.printStackTrace();
+        }
+    };
 
     private static boolean isPortAvailable(int port) {
         try (ServerSocket ss = new ServerSocket(port)) {
@@ -303,7 +378,7 @@ public class Main {
                         text-shadow: 0 0 8px #ffd600, 0 0 24px #d32f2f, 0 0 32px #388e3c;
                     }
                     .player-list {
-                        display: flex;
+                        display: flex;  
                         flex-direction: column;
                         gap: 12px;
                     }
@@ -316,6 +391,11 @@ public class Main {
                         border: 2px solid #ffd600;
                         border-radius: 16px;
                         background: rgba(0, 0, 0, 0.35);
+                    }
+                    .player-card.current-player-card {
+                        border: 3px solid #ffd600;
+                        background: rgba(0, 0, 0, 0.55);
+                        box-shadow: 0 0 18px #ffd600, 0 0 36px #d32f2f, 0 0 0 4px #388e3c;
                     }
                     .player-meta {
                         text-align: left;
@@ -344,6 +424,35 @@ public class Main {
                         cursor: pointer;
                         font-size: 1.05em;
                         line-height: 1;
+                    }
+                    .player-actions {
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                    }
+                    .player-order-buttons {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 6px;
+                    }
+                    .player-move {
+                        font-family: inherit;
+                        width: 32px;
+                        height: 32px;
+                        border: 2px solid #ffd600;
+                        border-radius: 10px;
+                        background: linear-gradient(135deg, #222 0%, #111 100%);
+                        color: #ffd600;
+                        box-shadow: 0 2px 0 #d32f2f, 0 4px 0 #388e3c, 0 0 12px #ffd600;
+                        cursor: pointer;
+                        font-size: 0.72em;
+                        line-height: 1;
+                        padding: 0;
+                    }      
+                    .player-move:disabled,
+                    .player-add:disabled {
+                        opacity: 0.45;
+                        cursor: not-allowed;
                     }
                     .player-empty {
                         font-size: 0.7em;
@@ -498,6 +607,9 @@ public class Main {
             <body>
                 <!-- Top actions -->
                 <a class='top-left-link' href='/addplayer'><button type='button'>nieuwe legend</button></a>
+                <form class='top-left-link' action='/reset-all-stats' method='post' style='top:88px;'>
+                    <button type='submit' onclick="return confirm('Reset stats of all players?')" style='background:linear-gradient(135deg,#8b1e1e 0%,#3a0d0d 100%);border-color:#ff5252;'>reset stats</button>
+                </form>
                 """
                 + renderAllPlayersPanel(playerBase)
                 + """
@@ -524,10 +636,20 @@ public class Main {
         html.append("<h2 class='panel-title'>alle boys</h2>");
         html.append("<div class='player-list'>");
         for (Player player : playerBase.getPlayers()) {
-            html.append("<div class='player-card'>");
+            html.append("<div class='player-card");
+            if (player.isInJilla()) {
+                html.append(" jilla-card");
+                html.append("' style='border-color:#ff5252;background:rgba(80,0,0,0.42);box-shadow:0 0 18px #ff5252,0 0 30px rgba(255,82,82,0.45);'>");
+            } else {
+                html.append("'>");
+            }
             html.append("<div class='player-meta'>");
-            html.append("<div class='player-name'>").append(escapeHtml(player.name)).append("</div>");
-            html.append("<div class='player-elo'>ELO: ").append(player.ELO).append("</div>");
+            html.append("<div class='player-name'>").append(escapeHtml(player.name));
+            if (player.isInJilla()) {
+                html.append(" <span style='display:inline-block;margin-left:8px;padding:3px 8px;border-radius:999px;background:#ff5252;color:#111;font-size:0.55em;vertical-align:middle;box-shadow:0 0 10px #ff5252;'>JILLA</span>");
+            }
+            html.append("</div>");
+            html.append("<div class='player-elo'>ELO: ").append(String.format("%.2f", player.ELO)).append("</div>");
             html.append("</div>");
             html.append("<form action='/activate-player' method='post'>");
             html.append("<input type='hidden' name='playerId' value='").append(player.playerId).append("'>");
@@ -545,23 +667,66 @@ public class Main {
         html.append("<div class='side-panel right-panel'>");
         html.append("<h2 class='active-panel-title'>currently baked</h2>");
         html.append("<div class='player-list'>");
-
-        if (activePlayerIds.isEmpty()) {
+        
+        List<Player> activePlayersList;
+        synchronized (activePlayers) {
+            activePlayersList = new ArrayList<>(activePlayers);
+        }
+        if (activePlayersList.isEmpty()) {
             html.append("<div class='player-empty'>niemand durft mee te doen<br>kom boys 1 potje</div>");
         } else {
-            for (Player player : activePlayerIds) {
+            for (int i = 0; i < activePlayersList.size(); i++) {
+                Player player = activePlayersList.get(i);
                 if (player == null) {
                     continue;
                 }
-                html.append("<div class='player-card'>");
+                html.append("<div class='player-card");
+                if (getCurrentActivePlayerId() != null && getCurrentActivePlayerId() == player.playerId) {
+                    html.append(" current-player-card");
+                }
+                if (player.isInJilla()) {
+                    html.append(" jilla-card");
+                }
+                html.append("'");
+                if (player.isInJilla()) {
+                    html.append(" style='border-color:#ff5252;background:rgba(80,0,0,0.42);box-shadow:0 0 18px #ff5252,0 0 30px rgba(255,82,82,0.45);'");
+                }
+                html.append(">");
                 html.append("<div class='player-meta'>");
-                html.append("<div class='player-name'>").append(escapeHtml(player.name)).append("</div>");
-                html.append("<div class='player-elo'>ELO: ").append(player.ELO).append("</div>");
+                html.append("<div class='player-name'>").append(escapeHtml(player.name));
+                if (player.isInJilla()) {
+                    html.append(" <span style='display:inline-block;margin-left:8px;padding:3px 8px;border-radius:999px;background:#ff5252;color:#111;font-size:0.55em;vertical-align:middle;box-shadow:0 0 10px #ff5252;'>JILLA</span>");
+                }
+                html.append("</div>");
+                html.append("<div class='player-elo'>ELO: ").append(String.format("%.2f", player.ELO)).append("</div>");
+                html.append("</div>");
+                // up and down buttons for active players
+                html.append("<div class='player-actions'>");
+                html.append("<div class='player-order-buttons'>");
+                html.append("<form action='/move-active-player' method='post'>");
+                html.append("<input type='hidden' name='playerId' value='").append(player.playerId).append("'>");
+                html.append("<input type='hidden' name='direction' value='up'>");
+                html.append("<button class='player-move' type='submit' ");
+                if (i == 0) {
+                    html.append("disabled");
+                }
+                html.append(">&#9650</button>");
+                html.append("</form>");
+                html.append("<form action='/move-active-player' method='post'>");
+                html.append("<input type='hidden' name='playerId' value='").append(player.playerId).append("'>");
+                html.append("<input type='hidden' name='direction' value='down'>");
+                html.append("<button class='player-move' type='submit' ");
+                if (i == activePlayersList.size() - 1) {
+                    html.append("disabled");
+                }
+                html.append(">&#9660</button>");
+                html.append("</form>");
                 html.append("</div>");
                 html.append("<form action='/deactivate-player' method='post'>");
                 html.append("<input type='hidden' name='playerId' value='").append(player.playerId).append("'>");
                 html.append("<button class='player-add' type='submit'>-</button>");
                 html.append("</form>");
+                html.append("</div>");
                 html.append("</div>");
             }
         }
@@ -579,4 +744,45 @@ public class Main {
             .replace("\"", "&quot;")
             .replace("'", "&#39;");
     }
+
+    private static void redirectBack(String referer, spark.Response res) {
+        if (referer != null && !referer.isBlank()) {
+            int protocolIdx = referer.indexOf("://");
+            if (protocolIdx >= 0) {
+                int pathStart = referer.indexOf('/', protocolIdx + 3);
+                if (pathStart >= 0) {
+                    res.redirect(referer.substring(pathStart));
+                    return;
+                }
+            } else if (referer.startsWith("/")) {
+                res.redirect(referer);
+                return;
+            }
+        }
+        res.redirect("/");
+    }
+
+    private static void moveActivePlayer(int playerId, String direction) {
+        synchronized (activePlayers) {
+            int index = -1;
+            for (int i = 0; i < activePlayers.size(); i++) {
+                Player player = activePlayers.get(i);
+                if (player != null && player.playerId == playerId) {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index == -1) {
+                return;
+            }
+
+            if (direction.equals("up") && index > 0) {
+                java.util.Collections.swap(activePlayers, index, index - 1);
+            } else if (direction.equals("down") && index < activePlayers.size() - 1) {
+                java.util.Collections.swap(activePlayers, index, index + 1);
+            }
+        }
+    }
+
 }
