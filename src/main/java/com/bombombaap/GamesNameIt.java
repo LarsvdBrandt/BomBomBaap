@@ -146,16 +146,25 @@ private static final String[] DRUG_PROMPTS = {
     private static String currentPrompt = "";
     private static String currentCategory = "";
     private static boolean show404 = false;
-    // Removed unused variable tryAgainCounter
     private static int totalCounter = 0;
     private static boolean started = false;
     private static boolean showCategories = true;
     private static boolean autoMode = false;
-    // Track prompts used during the application's lifetime (until shutdown)
     private static final Set<String> usedPrompts = Collections.newSetFromMap(new ConcurrentHashMap<>());
+
+    private static void resetGame() {
+        currentPrompt = "";
+        currentCategory = "";
+        show404 = false;
+        totalCounter = 0;
+        started = false;
+        showCategories = true;
+        usedPrompts.clear();
+    }
 
     public static void registerRoutes() {
         get("/nameit", (req, res) -> {
+            resetGame();
             res.type("text/html");
             return htmlPage(currentPrompt, show404, started, showCategories, currentCategory);
         });

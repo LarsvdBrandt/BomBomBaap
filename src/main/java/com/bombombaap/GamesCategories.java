@@ -310,9 +310,8 @@ public class GamesCategories {
 """;
 
     private static final Random rand = new Random();
-    private static final String CURRENT_LETTER = randomLetter();
+    private static String currentLetter = randomLetter();
     private static String currentCategory = randomCategory();
-    private static final int BONUS_TRIGGER_PERCENT = 15;
     // private static final String[] BONUS_CATEGORIES = loadBonusCategories();
     private static boolean show404 = false;
     private static int bouncerCounter = 0;
@@ -327,19 +326,37 @@ public class GamesCategories {
     private static Player currentPlayer = null;
     private static List<Player> activePlayers = null;
 
+    private static void resetGame() {
+        show404 = false;
+        bouncerCounter = 0;
+        pofCounter = 0;
+        palindromenCounter = 0;
+        jillaCounter = 0;
+        totalCounter = 0;
+        showLetter = true;
+        started = false;
+        currentCategory = randomCategory();
+        currentLetter = randomLetter();
+        currentPlayerIndex = 0;
+        currentPlayer = null;
+        if (activePlayers != null) {
+            for (Player p : activePlayers) {
+                p.setInJilla(false);
+            }
+        }
+        Main.setCurrentActivePlayer(null);
+    }
+
     public static void registerRoutes() {
         get("/categories", (req, res) -> {
+            resetGame();
             activePlayers = getActivePlayers();
-            if (activePlayers.isEmpty()) {
-                currentPlayerIndex = 0;
-                currentPlayer = null;
-            } else {
-                currentPlayerIndex = currentPlayerIndex % activePlayers.size();
-                currentPlayer = activePlayers.get(currentPlayerIndex);
+            if (!activePlayers.isEmpty()) {
+                currentPlayer = activePlayers.get(0);
             }
             Main.setCurrentActivePlayer(currentPlayer);
             res.type("text/html");
-            return htmlPage(CURRENT_LETTER, currentCategory, show404, showLetter, started);
+            return htmlPage(currentLetter, currentCategory, show404, showLetter, started);
         });
         post("/next", (req, res) -> {
             if (!started) { // start knop geklikt
