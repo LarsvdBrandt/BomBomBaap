@@ -1,6 +1,5 @@
 [
-  "⚡ BimBamBonus\nStoomtrein: Neem bij een goed antwoord, een power pof",
-  "⚡ BimBamBonusStoomtrein: Neem bij een goed antwoord, een power pof",
+  "⚡ BimBamBonusStoomtrein: Neem bij een goed antwoord een power pof",
   "⚡ BimBamBonus\nDe Dealer: Jij bepaalt wie de volgende vraag moet beantwoorden",
   "⚡ BimBamBonusDe Dealer: Jij bepaalt wie de volgende vraag moet beantwoorden",
   "⚡ BimBamBonus\nSkip: De volgende speler wordt overgeslagen",
@@ -15,14 +14,11 @@
   "⚡ BimBamBonus1x uit jilla kaart",
   "⚡ BimBamBonus\nDe Verlosser: Haal een andere speler uit Jilla",
   "⚡ BimBamBonusDe Verlosser: Haal een andere speler uit Jilla",
-  "⚡ BimBamBonusKies iemand uit die jilla gaat",
-  "⚡ BimBamBonus\nCopycat: Je mag vorige antwoorden herhalen",
-  "⚡ BimBamBonusCopycat: Je mag vorige antwoorden herhalen",
-  "⚡ BimBamBonusReverse: De speelrichting draait om",
+  "⚡ BimBamBonus\nJe mag vorige antwoorden herhalen",
+  "⚡ BimBamBonus\nDe speelrichting draait om",
   "⚡ BimBamBonus\nNeem nog een extra pof bij een goed antwoord",
-  "⚡ BimBamBonusNeem nog een extra pof bij een goed antwoord",
   "⚡ BimBamBonus\nMute: Je mag alleen antwoorden door uit te beelden, niet praten!",
-  "⚡ BimBamBonusMute: Je mag alleen antwoorden door uit te beelden, niet praten!",
   "⚡ BimBamBonus\nKies een nieuwe beginletter voor de volgende speler",
-  "⚡ BimBamBonusKies een nieuwe beginletter voor de volgende speler"
 ]
+
+// 

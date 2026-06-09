@@ -1,80 +1,93 @@
 {"players": [
   {
     "stats": {
-      "beurtenGehad": 21,
-      "poffen": 23,
+      "beurtenGehad": 23,
+      "poffen": 25,
       "bouncers": 0,
-      "gamesPlayed": 4,
-      "ELO": 1055,
-      "jillas": 2,
+      "gamesPlayed": 3,
+      "ELO": 123.399994,
+      "jillas": 4,
       "palindromen": 0
     },
-    "name": "Miel",
+    "name": "miel",
+    "id": 1
+  },
+  {
+    "stats": {
+      "beurtenGehad": 30,
+      "poffen": 33,
+      "bouncers": 3,
+      "gamesPlayed": 3,
+      "ELO": 230.5,
+      "jillas": 1,
+      "palindromen": 0
+    },
+    "name": "Nictor",
     "id": 2
   },
   {
     "stats": {
-      "beurtenGehad": 19,
-      "poffen": 19,
-      "bouncers": 0,
-      "gamesPlayed": 4,
-      "ELO": 1065,
-      "jillas": 1,
+      "beurtenGehad": 27,
+      "poffen": 28,
+      "bouncers": 1,
+      "gamesPlayed": 3,
+      "ELO": 119.69999,
+      "jillas": 5,
       "palindromen": 0
     },
-    "name": "vicca",
+    "name": "Feminist",
     "id": 3
   },
   {
     "stats": {
-      "beurtenGehad": 18,
-      "poffen": 18,
+      "beurtenGehad": 20,
+      "poffen": 22,
       "bouncers": 0,
-      "gamesPlayed": 4,
-      "ELO": 970,
-      "jillas": 4,
-      "palindromen": 0
+      "gamesPlayed": 2,
+      "ELO": 100.299995,
+      "jillas": 5,
+      "palindromen": 1
     },
-    "name": "arnouts",
+    "name": "Labubu",
     "id": 4
   },
   {
     "stats": {
-      "beurtenGehad": 0,
-      "poffen": 0,
-      "bouncers": 0,
-      "gamesPlayed": 0,
-      "ELO": 1000,
-      "jillas": 0,
+      "beurtenGehad": 28,
+      "poffen": 31,
+      "bouncers": 1,
+      "gamesPlayed": 3,
+      "ELO": 111.90001,
+      "jillas": 6,
       "palindromen": 0
     },
-    "name": "mattie",
+    "name": "Arnold",
     "id": 5
   },
   {
     "stats": {
-      "beurtenGehad": 0,
-      "poffen": 0,
+      "beurtenGehad": 11,
+      "poffen": 11,
       "bouncers": 0,
-      "gamesPlayed": 0,
-      "ELO": 1000,
-      "jillas": 0,
+      "gamesPlayed": 2,
+      "ELO": 85,
+      "jillas": 3,
       "palindromen": 0
     },
-    "name": "willie",
+    "name": "Matri",
     "id": 6
   },
   {
     "stats": {
-      "beurtenGehad": 0,
-      "poffen": 0,
+      "beurtenGehad": 5,
+      "poffen": 5,
       "bouncers": 0,
-      "gamesPlayed": 0,
-      "ELO": 1000,
-      "jillas": 0,
+      "gamesPlayed": 1,
+      "ELO": 100.6,
+      "jillas": 1,
       "palindromen": 0
     },
-    "name": "sas",
+    "name": "Galder",
     "id": 7
   }
 ]}

@@ -15,15 +15,15 @@ public class Player {
 
     public boolean inJilla = false;
 
-    public static final float POFFEN_WEIGHT = 4.2f;
-    public static final float BOUNCER_WEIGHT = 15f;
-    public static final float PALINDROMEN_WEIGHT = 30.0f;
-    public static final float JILLAS_WEIGHT = 17.5f;
+    public static final float POFFEN_WEIGHT = 4.2f; // +4.2
+    public static final float BOUNCER_WEIGHT = 4.1f; // +12.5
+    public static final float PALINDROMEN_WEIGHT = 9.9f; // +22.5
+    public static final float JILLAS_WEIGHT = 20.4f; //-17.3
 
     public Player(int playerId, String name){
         this.playerId = playerId;
         this.name = name;
-        this.ELO = 1000;
+        this.ELO = 100;
     }
 
     public void updateStats(int poffen, int beurtenGehad,int bouncers, int palindromen, int jillas, int gamesPlayed, float ELO){
@@ -65,7 +65,7 @@ public class Player {
             + (bouncers * BOUNCER_WEIGHT)
             + (palindromen * PALINDROMEN_WEIGHT)
             - (jillas * JILLAS_WEIGHT);
-        this.ELO = Math.max(0f, 1000f + weightedScore);
+        this.ELO = Math.max(0f, 100f + weightedScore);
     }
 
     public void setGamesPlayed(int gamesPlayed) {
@@ -88,7 +88,7 @@ public class Player {
         this.gamesPlayed = 0;
         this.beurtenGehad = 0;
         this.inJilla = false;
-        this.ELO = 1000;
+        this.ELO = 100;
     }
     
 }

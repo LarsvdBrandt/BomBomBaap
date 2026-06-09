@@ -358,6 +358,7 @@ public class Main {
                         }
                     .left-panel {
                         left: 24px;
+                        top: 160px;
                     }
                     .right-panel {
                         right: 24px;
@@ -604,7 +605,7 @@ public class Main {
                     });
                 </script>
             </head>
-            <body>
+            <body>s
                 <!-- Top actions -->
                 <a class='top-left-link' href='/addplayer'><button type='button'>nieuwe legend</button></a>
                 <form class='top-left-link' action='/reset-all-stats' method='post' style='top:88px;'>
@@ -649,7 +650,13 @@ public class Main {
                 html.append(" <span style='display:inline-block;margin-left:8px;padding:3px 8px;border-radius:999px;background:#ff5252;color:#111;font-size:0.55em;vertical-align:middle;box-shadow:0 0 10px #ff5252;'>JILLA</span>");
             }
             html.append("</div>");
-            html.append("<div class='player-elo'>ELO: ").append(String.format("%.2f", player.ELO)).append("</div>");
+            html.append("<div class='player-elo'>skill");
+            if (player.ELO < 100){
+                html.append(" issue: " );
+            } else {
+                html.append(": ");
+            }
+            html.append(String.format("%.2f", player.ELO)).append("</div>");    
             html.append("</div>");
             html.append("<form action='/activate-player' method='post'>");
             html.append("<input type='hidden' name='playerId' value='").append(player.playerId).append("'>");
@@ -698,7 +705,13 @@ public class Main {
                     html.append(" <span style='display:inline-block;margin-left:8px;padding:3px 8px;border-radius:999px;background:#ff5252;color:#111;font-size:0.55em;vertical-align:middle;box-shadow:0 0 10px #ff5252;'>JILLA</span>");
                 }
                 html.append("</div>");
-                html.append("<div class='player-elo'>ELO: ").append(String.format("%.2f", player.ELO)).append("</div>");
+                html.append("<div class='player-elo'>skill");
+                if (player.ELO < 100){
+                    html.append(" issue: " );
+                } else{
+                    html.append(": ");
+                }
+                html.append(String.format("%.2f", player.ELO)).append("</div>");
                 html.append("</div>");
                 // up and down buttons for active players
                 html.append("<div class='player-actions'>");

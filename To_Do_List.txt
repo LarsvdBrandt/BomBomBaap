@@ -1,7 +1,10 @@
-[] voeg een 'undo' button toe voor als je skaffa op de verkeerde knop klikt
+[x] voeg een 'undo' button toe voor als je skaffa op de verkeerde knop klikt
 [x] fix de volgorde van de active player list
 [x] integreer de volgorde in de game en track de stats 
-[] laat de 
-[] bouw een formule voor de ELO rankings 
+[x] bouw een formule voor de ELO rankings 
 [] als iemand mid-game uit de active list gaat, niet -1 game played
-a
+
+<a class='top-left-link' href='/addplayer'><button type='button'>nieuwe legend</button></a>
+                <form class='top-left-link' action='/reset-all-stats' method='post' style='top:88px;'>
+                    <button type='submit' onclick="return confirm('Reset stats of all players?')" style='background:linear-gradient(135deg,#8b1e1e 0%,#3a0d0d 100%);border-color:#ff5252;'>reset stats</button>
+                </form>

@@ -199,11 +199,8 @@ public class GamesCategories {
         "Iets dat je liever niet in je broekzak hebt",
         "Iets dat je verder dan 5 meter kunt trappen",
         "Iets dat pijn doet als je erop gaat zitten",
-        "Iets dat jou breekt",
-        "Iets dat kapot gaat als je ernaar kijkt",
         "Iets dat elektrisch is",
         "Iets dat werkt zonder dat iemand weet hoe",
-        "Iets dat nooit doet wat het moet doen",
         "Iets dat je vroeger cool vond",
         "Iets dat alleen oude mensen gebruiken",
         "Iets dat kinderen veel te leuk vinden",
@@ -250,6 +247,35 @@ public class GamesCategories {
         "een alcoholist uit maas",
 
         "een drugsverslaafde uit maas"
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST",
+        // "maastrichtTEST"
     };
 
     private static final String BIMBAMBONUSSEN = """
@@ -506,8 +532,10 @@ public class GamesCategories {
 
     private static String[] getAvailableCategories() {
         if (!maastrichtSelected) {
+            System.out.println("Maastricht categorien niet geselecteerd, alleen reguliere categorien beschikbaar.");
             return categorien;
         }
+        System.out.println("Maastricht categorien geselecteerd, reguliere + maastricht categorien beschikbaar.");
 
         String[] allCategories = new String[categorien.length + maastrichtCategorien.length];
         System.arraycopy(categorien, 0, allCategories, 0, categorien.length);
