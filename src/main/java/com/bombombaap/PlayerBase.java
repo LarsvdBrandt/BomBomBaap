@@ -108,6 +108,11 @@ public class PlayerBase {
         return playerBase.values();
     }
 
+    private static String dataDir() {
+        String dir = System.getenv("DATA_DIR");
+        return (dir != null && !dir.isBlank()) ? dir : ".";
+    }
+
     public void saveJSON() {
         JSONObject root = new JSONObject();
         JSONArray playerArray = new JSONArray();
@@ -135,7 +140,7 @@ public class PlayerBase {
         }
         root.put("players", playerArray);
         try {
-            Files.writeString(Paths.get("players.json"), root.toString(2));
+            Files.writeString(Paths.get(dataDir(), "players.json"), root.toString(2));
         } catch (IOException e) {
             throw new IllegalStateException("Failed to write players.json", e);
         }
@@ -168,7 +173,7 @@ public class PlayerBase {
         }
         root.put("players", playerArray);
         try {
-            Files.writeString(Paths.get("players.json"), root.toString(2));
+            Files.writeString(Paths.get(dataDir(), "players.json"), root.toString(2));
         } catch (IOException e) {
             throw new IllegalStateException("Failed to write players.json", e);
         }

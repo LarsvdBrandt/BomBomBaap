@@ -266,12 +266,23 @@ public class Main {
     }
 
     private static String loadPlayersJSON() throws IOException {
+        // Try DATA_DIR first (persistent volume on Railway/Render/etc)
+        String dataDir = System.getenv("DATA_DIR");
+        if (dataDir != null && !dataDir.isBlank()) {
+            java.nio.file.Path dataDirFile = Paths.get(dataDir, "players.json");
+            if (Files.exists(dataDirFile)) {
+                return Files.readString(dataDirFile);
+            }
+        }
+
+        // Try classpath (bundled in jar)
         try (InputStream resource = Main.class.getResourceAsStream("/players.json")) {
             if (resource != null) {
                 return new String(resource.readAllBytes(), StandardCharsets.UTF_8);
             }
         }
 
+        // Local dev fallback
         if (Files.exists(Paths.get("players.json"))) {
             return Files.readString(Paths.get("players.json"));
         }
